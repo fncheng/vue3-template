@@ -43,7 +43,9 @@ watch(
                 pdfDoc = pdf
                 numPages.value = pdf.numPages
                 currentPage.value = 1
-                renderPage(currentPage.value)
+                renderPage(currentPage.value).catch((err: any) => {
+                    console.log('PDF 渲染失败:', err)
+                })
             })
             .catch((err: any) => {
                 console.log('PDF 加载失败:', err)

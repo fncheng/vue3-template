@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUpdated, ref } from 'vue'
+import { onBeforeUnmount, onUpdated, ref } from 'vue'
 
 defineOptions({ name: 'SSEView' })
 
@@ -17,7 +17,6 @@ source.addEventListener('message', (e) => {
     console.log('Message from server:', e.data)
     // content.value += `${e.data}\n\n`
     const message = e.data
-    console.log('message: ', message)
     displayMessageWithEffect(message)
 })
 
@@ -27,17 +26,15 @@ function displayMessageWithEffect(message: string) {
     if (container) {
         const newMessageElement = document.createElement('p')
         container.appendChild(newMessageElement)
-        
-        const intervalId = setInterval(() => {
-            newMessageElement.textContent += message[index]
-            index++
 
-            // 当所有字符都显示完时，停止定时器
-            if (index === message.length) {
-                clearInterval(intervalId)
+        const updateText = () => {
+            if (index < message.length) {
+                newMessageElement.textContent += message[index]
+                index++
+                requestAnimationFrame(updateText)
             }
-        }, 100) // 每隔 50ms 显示一个字符
-        container.appendChild(newMessageElement)
+        }
+        updateText()
     }
 }
 
@@ -45,5 +42,9 @@ console.log('re-render')
 
 onUpdated(() => {
     console.log('update')
+})
+
+onBeforeUnmount(()=> {
+    source.close()
 })
 </script>
