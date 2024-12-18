@@ -1,0 +1,134 @@
+import { useNumber } from '@/pages/useNumber'
+import { defineAsyncComponent } from 'vue'
+import { type RouteRecordRaw, createWebHistory, createRouter, type RouteRecord } from 'vue-router'
+
+const modules = import.meta.glob('../pages/**/*.vue')
+
+type RouteConfig = Pick<
+    RouteRecordRaw,
+    'name' | 'path' | 'redirect' | 'component' | 'beforeEnter'
+> & {
+    path: string
+    componentPath?: string
+    meta?: {
+        requireAuth: boolean
+    }
+    children?: RouteConfig[]
+}
+
+const initRoutes: RouteRecordRaw[] = [
+    {
+        path: '/',
+        component: () => import('@/pages/Home.vue')
+    }
+]
+
+export const loadWithDelay = (promise: Promise<any>, time: number) => {
+    const delay = (d: number) => new Promise((resolve) => setTimeout(resolve, d))
+    const delayPromise = delay(time)
+    return Promise.all([promise, delayPromise]).then(() => promise)
+}
+
+// const Home = defineAsyncComponent(() => import('@/pages/Home.vue'));
+
+const routesMap: RouteConfig[] = [
+    {
+        path: '/',
+        children: [
+            {
+                path: '',
+                redirect: '/home'
+            },
+            {
+                path: 'home',
+                component: () => import('@/pages/Home.vue')
+            },
+            {
+                path: 'about',
+                component: () => import('@/pages/About.vue')
+            },
+            // {
+            //     path: 'about',
+            //     component: defineAsyncComponent({
+            //         loader: () => import('@/pages/About.vue'),
+            //         delay: 2000
+            //     })
+            // },
+            {
+                path: 'about1',
+                componentPath: 'About1'
+            },
+            {
+                path: 'test',
+                component: () => loadWithDelay(import('@/pages/Test.vue'), 0)
+            },
+            {
+                path: 'pdf',
+                component: () => import('@/pages/pdf/index.vue')
+            },
+            {
+                path: 'sse',
+                component: () => import('@/pages/sse/index.vue')
+            }
+            // {
+            //   path: 'create-element',
+            //   componentPath: 'CreateElement/index',
+            //   // meta: { requireAuth: true }
+            // },
+            // {
+            //   path: '/mount-blade',
+            //   componentPath: 'MountBlade/index'
+            // },
+            // {
+            //   path: '/child-a',
+            //   componentPath: 'Child/ChildA'
+            // },
+            // {
+            //   path: '/child-b',
+            //   componentPath: 'Child/ChildB'
+            // }
+        ]
+    }
+]
+
+const handleAsyncRoutes = (routes: RouteConfig[]): any[] =>
+    routes.map((route) => {
+        // console.log('route: ', route.componentPath);
+        if (route.children && route.children.length > 0) {
+            route.children = handleAsyncRoutes(route.children)
+        }
+        if (route.componentPath) {
+            return {
+                ...route,
+                path: route.path,
+                component: modules[`../pages/${route.componentPath}.vue`]
+            }
+        }
+        return route
+    })
+
+// const staticRoutes: RouteRecordRaw[] = [
+//   { path: '/home', component: () => import('../pages/HomeView.vue') },
+//   { path: '/about', component: () => import('../pages/AboutView.vue') }
+// ];
+
+const asyncRoutes = handleAsyncRoutes(routesMap)
+
+const router = createRouter({
+    history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/app-vue2' : '/'),
+    routes: asyncRoutes
+})
+
+// asyncRoutes.forEach((route) => router.addRoute(route));
+
+router.beforeEach((to, from, next) => {
+    // console.log('to: ', to, from);
+    // if (to.path === '/home') {
+    //   alert('home');
+    // }
+    // if (to.path === '/about') {
+    //   next('/home');
+    // }
+    next()
+})
+export default router
