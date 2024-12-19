@@ -20,7 +20,9 @@ import pdf from './example.pdf'
 // import PDFViewer from './PDFViewer.vue'
 import { loadWithDelay } from '@/router'
 
-const PDFViewer = defineAsyncComponent(() => loadWithDelay(import('./PDFViewer.vue'), 0))
+const PDFViewer = defineAsyncComponent(() =>
+    loadWithDelay(import('./PDFViewer.vue'), 2000, 'PDFViewer')
+)
 
 defineOptions({ name: 'PDFExample' })
 

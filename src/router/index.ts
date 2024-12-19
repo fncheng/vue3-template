@@ -23,9 +23,17 @@ const initRoutes: RouteRecordRaw[] = [
     }
 ]
 
-export const loadWithDelay = (promise: Promise<any>, time: number) => {
+const cachedAsyncComponent = new Map()
+
+export const loadWithDelay = (promise: Promise<any>, time: number, key: string) => {
+    if (cachedAsyncComponent.has(key)) {
+        return cachedAsyncComponent.get(key)
+    }
     const delay = (d: number) => new Promise((resolve) => setTimeout(resolve, d))
     const delayPromise = delay(time)
+    
+    cachedAsyncComponent.set(key, promise)
+
     return Promise.all([promise, delayPromise]).then(() => promise)
 }
 
