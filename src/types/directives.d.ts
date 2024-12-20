@@ -4,5 +4,6 @@ declare module 'vue' {
     interface ComponentCustomProperties {
         vBgColor: ObjectDirective<any, string>
         vColor: FunctionDirective<any, string>
+        vAlertColor: FunctionDirective<any, string>
     }
 }

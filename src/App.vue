@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref, Suspense } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { loadWithDelay } from './router'
 
@@ -8,7 +8,7 @@ import { loadWithDelay } from './router'
 // )
 
 const AsyncComponent = defineAsyncComponent({
-    loader: () => loadWithDelay(import('@/components/AsyncComponent.vue'), 100),
+    loader: () => loadWithDelay(import('@/components/AsyncComponent.vue'), 100, 'AsyncComponent'),
     delay: 200
 })
 const showAsyncComponent = ref<boolean>(false)

@@ -6,21 +6,19 @@
             <template #fallback>
                 <div>pdf加载中...</div>
             </template>
-            <template #default>
-                <PDFViewer :fileUrl="pdfUrl" />
-            </template>
+            <PDFViewer :fileUrl="pdfUrl" />
         </Suspense>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ElButton } from 'element-plus'
-import { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, ref, type DefineComponent } from 'vue'
 import pdf from './example.pdf'
 // import PDFViewer from './PDFViewer.vue'
 import { loadWithDelay } from '@/router'
 
-const PDFViewer = defineAsyncComponent(() =>
+const PDFViewer: DefineComponent<{ fileUrl: string }> = defineAsyncComponent(() =>
     loadWithDelay(import('./PDFViewer.vue'), 2000, 'PDFViewer')
 )
 

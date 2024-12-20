@@ -8,12 +8,15 @@ import router from './router'
 import 'element-plus/theme-chalk/index.css'
 import myPlugin from './plugins'
 import directives from './directives'
+import AsyncComponent from './components/AsyncComponent.vue'
 
 const app = createApp(App)
 
 Object.keys(directives).forEach((key) => {
     app.directive(key, directives[key as keyof typeof directives])
 })
+
+app.component('AsComponent', AsyncComponent)
 
 app.use(myPlugin, { message: 'hello' })
 app.use(router)
