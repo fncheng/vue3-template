@@ -5,7 +5,7 @@ import { defineAsyncComponent, ref } from 'vue'
 defineOptions({ name: 'HomeView' })
 
 const visible = ref(false)
-const id = ref<number>(100)
+const id = ref<string>('10086')
 
 const obj = ref({
     name: 'zs',
@@ -49,7 +49,7 @@ const handleChange = (val: string) => {
         </div>
         <div>
             Component3
-            <AsyncComponent3 v-model:obj="obj" v-model:id="id" />
+            <AsyncComponent3 v-model:object="obj" v-model:id="id" />
         </div>
     </main>
 </template>

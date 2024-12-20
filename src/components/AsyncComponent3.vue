@@ -8,12 +8,16 @@
 </template>
 
 <script setup lang="ts">
-const model = defineModel<{ age: number; nest: { number: number } }>('obj', {
+type ObjectModel = {
+    age: number
+    nest: {
+        number: number
+    }
+}
+const model = defineModel<ObjectModel>('object', {
     required: true
 })
-const id = defineModel('id', {
-    type: String,
-    default: '100',
+const id = defineModel<string>('id', {
     required: true,
     set(v) {
         return v
