@@ -2,8 +2,28 @@
     <main class="flex flex-1 flex-col">
         <h3>Let's loading some data</h3>
         <section class="grid grid-cols-4">
-            <div :style="{ color: 'red' }">Number: {{ number }}</div>
-            <div :style="{ color: 'red' }">Name: {{ name }}</div>
+            <Suspense>
+                <template #fallback>Please wait...</template>
+                <Await :resolve="number">
+                    <template #default="slotProps">
+                        <div :style="{ color: 'red' }">Number: {{ slotProps.data }}</div>
+                    </template>
+                    <template #error>
+                        <div>Error</div>
+                    </template>
+                </Await>
+            </Suspense>
+            <Suspense>
+                <template #fallback>Please wait...</template>
+                <Await :resolve="name">
+                    <template #default="slotProps">
+                        <div :style="{ color: 'red' }">Name: {{ slotProps.data }}</div>
+                    </template>
+                    <template #error>
+                        <div>Error</div>
+                    </template>
+                </Await>
+            </Suspense>
             <div>
                 <button @click="isShowAge = !isShowAge">isShowAge</button>
             </div>
@@ -14,17 +34,20 @@
                     :key="item.name"
                     v-bind:prop="item.name"
                     v-bind:label="item.label"
-                >
-                </ElTableColumn>
+                ></ElTableColumn>
             </ElTable>
         </section>
     </main>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onUpdated, ref } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, onUpdated, ref } from 'vue'
 import { ElTable, ElTableColumn } from 'element-plus'
 import { useRoute } from 'vue-router'
+
+const Await: (typeof import('../components/Await.vue'))['default'] = defineAsyncComponent(
+    () => import('../components/Await.vue')
+)
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -35,31 +58,12 @@ declare module 'vue-router' {
 }
 
 defineOptions({ name: 'About1View' })
-
-const number = ref()
-const name = ref()
-
 const route = useRoute()
+
+const number = ref(route.meta.number)
+const name = ref(route.meta.name)
+
 const abortController = route.meta.abortController
-
-const getLoader = async () => {
-    const numberVal = route.meta.number
-    const nameVal = route.meta.name
-    numberVal.then((n) => {
-        number.value = n
-    })
-    nameVal.then((n) => {
-        name.value = n
-    })
-    // number.value = await numberVal
-    // name.value = await nameVal
-
-    // const [numberVal2, nameVal2] = await Promise.all([route.meta.number, route.meta.name])
-    // number.value = numberVal2
-    // name.value = nameVal2
-}
-
-getLoader()
 
 onBeforeUnmount(() => {
     abortController.abort('请求取消')
