@@ -1,38 +1,69 @@
 <template>
-    <div :style="{ color: 'red' }">Here is the number: {{ name }} : {{ number }}</div>
-    <div>
-        <button @click="isShowAge = !isShowAge">isShowAge</button>
-    </div>
+    <main class="flex flex-1 flex-col">
+        <h3>Let's loading some data</h3>
+        <section class="grid grid-cols-4">
+            <div :style="{ color: 'red' }">Number: {{ number }}</div>
+            <div :style="{ color: 'red' }">Name: {{ name }}</div>
+            <div>
+                <button @click="isShowAge = !isShowAge">isShowAge</button>
+            </div>
 
-    <ElTable :data="data">
-        <ElTableColumn
-            v-for="item in columns"
-            :key="item.name"
-            v-bind:prop="item.name"
-            v-bind:label="item.label"
-        ></ElTableColumn>
-    </ElTable>
+            <ElTable :data="data">
+                <ElTableColumn
+                    v-for="item in columns"
+                    :key="item.name"
+                    v-bind:prop="item.name"
+                    v-bind:label="item.label"
+                >
+                </ElTableColumn>
+            </ElTable>
+        </section>
+    </main>
 </template>
 
 <script setup lang="ts">
-import { computed, onUpdated, ref } from 'vue'
-import { useNumber } from '../pages/useNumber'
-import { useName } from './useName'
+import { computed, onBeforeUnmount, onUpdated, ref } from 'vue'
 import { ElTable, ElTableColumn } from 'element-plus'
+import { useRoute } from 'vue-router'
+
+declare module 'vue-router' {
+    interface RouteMeta {
+        number: Promise<number>
+        name: Promise<string>
+        abortController: AbortController
+    }
+}
+
+defineOptions({ name: 'About1View' })
 
 const number = ref()
 const name = ref()
-const getNumber = async () => {
-    const value = await useNumber()
-    number.value = value
-}
-const getName = async () => {
-    const value = await useName()
-    name.value = value
+
+const route = useRoute()
+const abortController = route.meta.abortController
+
+const getLoader = async () => {
+    const numberVal = route.meta.number
+    const nameVal = route.meta.name
+    numberVal.then((n) => {
+        number.value = n
+    })
+    nameVal.then((n) => {
+        name.value = n
+    })
+    // number.value = await numberVal
+    // name.value = await nameVal
+
+    // const [numberVal2, nameVal2] = await Promise.all([route.meta.number, route.meta.name])
+    // number.value = numberVal2
+    // name.value = nameVal2
 }
 
-getNumber()
-getName()
+getLoader()
+
+onBeforeUnmount(() => {
+    abortController.abort('请求取消')
+})
 
 const isShowAge = ref(false)
 
@@ -48,7 +79,7 @@ const data = [
 ]
 console.log('re-render')
 onUpdated(() => {
-    console.log('render')
+    console.log('updated')
 })
 </script>
 

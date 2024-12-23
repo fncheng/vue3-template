@@ -1,6 +1,5 @@
-import { useNumber } from '@/pages/useNumber'
-import { defineAsyncComponent } from 'vue'
-import { type RouteRecordRaw, createWebHistory, createRouter, type RouteRecord } from 'vue-router'
+import { useFetchData } from '@/pages/useFetchData'
+import { type RouteRecordRaw, createWebHistory, createRouter } from 'vue-router'
 
 const modules = import.meta.glob('../pages/**/*.vue')
 
@@ -25,14 +24,14 @@ const initRoutes: RouteRecordRaw[] = [
 
 const cachedAsyncComponent = new Map()
 
-export const loadWithDelay = (promise: Promise<any>, time: number, key: string) => {
-    if (cachedAsyncComponent.has(key)) {
+export const loadWithDelay = (promise: Promise<any>, time: number, key?: string) => {
+    if (key && cachedAsyncComponent.has(key)) {
         return cachedAsyncComponent.get(key)
     }
     const delay = (d: number) => new Promise((resolve) => setTimeout(resolve, d))
     const delayPromise = delay(time)
-    
-    cachedAsyncComponent.set(key, promise)
+
+    key && cachedAsyncComponent.set(key, promise)
 
     return Promise.all([promise, delayPromise]).then(() => promise)
 }
@@ -64,7 +63,14 @@ const routesMap: RouteConfig[] = [
             // },
             {
                 path: 'about1',
-                componentPath: 'About1'
+                component: () => import('@/pages/About1.vue'),
+                beforeEnter: (to, from, next) => {
+                    const { number, name, abortController } = useFetchData()
+                    to.meta.number = number
+                    to.meta.name = name
+                    to.meta.abortController = abortController
+                    next()
+                }
             },
             {
                 path: 'test',
