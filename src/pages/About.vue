@@ -2,13 +2,9 @@
     <h3>about</h3>
     <p>
         <button @click="showAsyncComponent = !showAsyncComponent">showAsyncComponent</button>
-        <Suspense v-if="isLoaded || showAsyncComponent">
+        <Suspense @resolve="isLoaded = true" v-if="isLoaded || showAsyncComponent">
             <template #fallback>Loading number...</template>
-            <async-component
-                v-show="showAsyncComponent"
-                :number="number"
-                @onloaded="isLoaded = true"
-            ></async-component>
+            <async-component v-show="showAsyncComponent" :number="number"> </async-component>
         </Suspense>
     </p>
 </template>
