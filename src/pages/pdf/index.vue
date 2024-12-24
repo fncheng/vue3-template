@@ -6,7 +6,9 @@
             <template #fallback>
                 <div>pdf加载中...</div>
             </template>
+            <!-- <Transition name="fade"> -->
             <PDFViewer :fileUrl="pdfUrl" />
+            <!-- </Transition> -->
         </Suspense>
     </div>
 </template>
@@ -30,3 +32,16 @@ const handleClick = () => {
     window.open(pdfUrl.value)
 }
 </script>
+
+<style lang="css">
+/* 下面我们会解释这些 class 是做什么的 */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>

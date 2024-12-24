@@ -8,10 +8,6 @@
         <span>mem: {{ props.info.memory }}</span>
         <span>number: {{ props.info.nest?.number }}</span>
         <button @click="handleClick">click</button>
-        <div :ref="ref">
-            {{ name }} {{ age }}
-            1
-        </div>
         <div>
             <default />
             <component :is="default" v-if="info.age > 25" />
@@ -24,7 +20,7 @@
 
 <script setup lang="ts">
 import type { AddFormType } from '@/pages/Test.vue'
-import { useAttrs, type Component, type Ref } from 'vue'
+import { useAttrs, type Component } from 'vue'
 const attr = useAttrs()
 
 console.log('attr', attr)

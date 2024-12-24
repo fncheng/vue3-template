@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section :class="$style.section">
         <div :style="{ color: 'red' }">About: {{ 123 }}</div>
         <p>id <input type="text" v-model="localeId" /></p>
         <p>
@@ -71,7 +71,7 @@ watch(
 </script>
 
 <style lang="css" module>
-section {
+.section {
     border: 1px dashed red;
 }
 </style>
