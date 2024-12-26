@@ -2,12 +2,18 @@ import './public-path'
 import './assets/reset.css'
 import './assets/main.css'
 
-import { createApp } from 'vue'
+import { createApp, defineCustomElement } from 'vue'
 import App from './App.vue'
 import router from './router'
 import 'element-plus/theme-chalk/index.css'
 import myPlugin from './plugins'
 import directives from './directives'
+import Pack from './components/Pack.ce.vue'
+
+const MyPack = defineCustomElement(Pack)
+
+customElements.define('my-pack', MyPack)
+
 
 const app = createApp(App)
 

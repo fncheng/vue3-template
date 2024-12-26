@@ -2,6 +2,7 @@
 import { defineAsyncComponent, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { loadWithDelay } from './router'
+import { ProvideContext } from './context'
 
 // const AsyncComponent = defineAsyncComponent(() =>
 //     loadWithDelay(import('./pages/AsyncComponent.vue'), 2000)
@@ -12,6 +13,8 @@ const AsyncComponent = defineAsyncComponent({
     delay: 200
 })
 const showAsyncComponent = ref<boolean>(false)
+
+ProvideContext()
 </script>
 
 <template>
@@ -26,6 +29,7 @@ const showAsyncComponent = ref<boolean>(false)
             <RouterLink to="/child-b">child-b</RouterLink>
             <RouterLink to="/pdf">pdf</RouterLink>
             <RouterLink to="/sse">sse</RouterLink>
+            <RouterLink to="/chat">chat</RouterLink>
         </ul>
         <Suspense>
             <template #fallback>Loading number...</template>
@@ -51,7 +55,7 @@ const showAsyncComponent = ref<boolean>(false)
             <template #fallback>Loading...</template>
             <template #default>
                 <!-- <section class="content-wrapper"> -->
-                <RouterView />
+                <RouterView :key="$route.fullPath" />
                 <!-- </section> -->
             </template>
         </Suspense>

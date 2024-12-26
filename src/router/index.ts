@@ -83,7 +83,7 @@ const routesMap: RouteConfig[] = [
             {
                 path: 'sse',
                 component: () => import('@/pages/sse/index.vue')
-            }
+            },
             // {
             //   path: 'create-element',
             //   componentPath: 'CreateElement/index',
@@ -93,14 +93,18 @@ const routesMap: RouteConfig[] = [
             //   path: '/mount-blade',
             //   componentPath: 'MountBlade/index'
             // },
-            // {
-            //   path: '/child-a',
-            //   componentPath: 'Child/ChildA'
-            // },
-            // {
-            //   path: '/child-b',
-            //   componentPath: 'Child/ChildB'
-            // }
+            {
+                path: '/child-a',
+                component: () => import('@/pages/Child/ChildA.vue')
+            },
+            {
+                path: '/child-b',
+                component: () => import('@/pages/Child/ChildA.vue')
+            },
+            {
+                path: 'chat',
+                component: () => import('@/pages/Chat.vue')
+            }
         ]
     }
 ]

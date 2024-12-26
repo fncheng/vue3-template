@@ -7,6 +7,7 @@ const myPlugin: ObjectPlugin<{ message: string }> = {
         app.config.globalProperties.$myPluginMethod = () => {
             console.log('myPluginMethod')
         }
+        // 推荐
         const myPluginMethod = () => {
             console.log('myPluginMethod', options.message)
         }

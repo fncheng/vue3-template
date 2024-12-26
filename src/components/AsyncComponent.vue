@@ -1,5 +1,6 @@
 <template>
     <div :class="blue" :style="{ color: 'red' }">About: {{ props.number || number }}</div>
+    <button @click="handleClick">click</button>
 </template>
 
 <script setup lang="ts">
@@ -13,12 +14,12 @@ const blue = css`
 
 export type AsyncComponentProps = {
     number: number
+    onLoaded?: () => void
 }
 
 export type AsyncComponentEmits = {
-    onloaded: []
+    loaded: []
 }
-
 const props = defineProps<AsyncComponentProps>()
 const emit = defineEmits<AsyncComponentEmits>()
 const number = ref(props.number || 100)
@@ -29,7 +30,13 @@ const getNumber = async () => {
 console.log('async component render')
 getNumber()
 
+const handleClick = () => {
+    // props.onLoaded()
+    emit('loaded')
+}
+
 onMounted(() => {
-    emit('onloaded')
+    // emit('onloaded')
+    // props.onLoaded()
 })
 </script>
