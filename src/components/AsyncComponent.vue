@@ -1,13 +1,11 @@
 <template>
     <div :class="blue" :style="{ color: 'red' }">About: {{ props.number || number }}</div>
-    <button @click="handleClick">click</button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useNumber } from '@/pages/useNumber'
 import { css } from '@emotion/css'
-import styled from '@emotion/styled'
 const blue = css`
     color: blue;
 `
@@ -18,7 +16,7 @@ export type AsyncComponentProps = {
 }
 
 export type AsyncComponentEmits = {
-    loaded: []
+    onLoaded: []
 }
 const props = defineProps<AsyncComponentProps>()
 const emit = defineEmits<AsyncComponentEmits>()
@@ -32,7 +30,7 @@ getNumber()
 
 const handleClick = () => {
     // props.onLoaded()
-    emit('loaded')
+    // emit('onLoaded')
 }
 
 onMounted(() => {

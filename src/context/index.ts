@@ -11,14 +11,14 @@ type ContextType = {
 }
 
 export function ProvideContext() {
-    const state = reactive<StoreType>({
+    const __state = reactive<StoreType>({
         name: 'zs',
         age: 20
     })
     const incrementAge = () => {
-        state.age++
+        __state.age++
     }
-    provide('GlobalContext', { state: readonly(state), incrementAge })
+    provide('GlobalContext', { state: readonly(__state), incrementAge })
 }
 
 export function useContext() {

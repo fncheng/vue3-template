@@ -1,35 +1,33 @@
 <template>
     <div :class="$style.flex">
-        <span>{{ props.info.name }}</span>
-        <span>{{ props.info.age }}</span>
-        <span>{{ props.info.address }}</span>
+        <span>{{ name }}</span>
+        <span>{{ age }}</span>
         <span>cpu: {{ props.info.cpu }}</span>
-        <span>gpu: {{ props.info.gpu }}</span>
-        <span>mem: {{ props.info.memory }}</span>
         <span>number: {{ props.info.nest?.number }}</span>
         <button @click="handleClick">click</button>
-        <div>
-            <default />
-            <component :is="default" v-if="info.age > 25" />
-        </div>
-        <div>
+        <section>
             <slot name="default" :message="'dsada'"></slot>
-        </div>
+        </section>
+        <section>
+            <ElInput v-model:model-value="modelName" />
+            <ElButton :type="type" v-bind="fprops">click</ElButton>
+        </section>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { AddFormType } from '@/pages/Test.vue'
-import { useAttrs, type Component } from 'vue'
+import { ElButton, ElInput, type ButtonProps } from 'element-plus'
+import { useAttrs } from 'vue'
 const attr = useAttrs()
 
 console.log('attr', attr)
 
 type TestProps = {
     info: AddFormType
-    default: Component
     name: string
     age: number
+    fieldProps: Partial<ButtonProps>
 }
 type TestEvent = {
     'update:info': [val?: any]
@@ -38,11 +36,14 @@ type TestEvent = {
 type TestSlots = {
     default: (props: { message: string }) => any
 }
-const props = defineProps<TestProps>()
+const { name, age, fieldProps, ...props } = defineProps<TestProps>()
+const { type, ...fprops } = fieldProps
 const emit = defineEmits<TestEvent>()
 defineSlots<TestSlots>()
 
-console.log('default', props.default)
+const modelName = defineModel<string>('name', {
+    required: true
+})
 
 const handleClick = () => {
     emit('update:info')

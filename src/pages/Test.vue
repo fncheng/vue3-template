@@ -3,26 +3,20 @@
         <h3 v-color="'red'">Test</h3>
         <div>
             <button @click="age++">{{ age }}</button>
-            <button @click="handleButton">testRef</button>
         </div>
         <TestComponent
             ref="testRef"
-            :default="AsyncComponent"
+            v-model:name="addForm.name"
             :info="addForm"
+            :age="33"
+            :field-props="{ type: 'danger', round: true }"
             @update:info="updateInfo"
-            v-bind="addForm"
-            v-on="{ click: getData }"
         >
             <template v-slot:default="slotProps">
                 <p>Here is a message from parent: {{ slotProps.message }}</p>
                 <AsyncComponent :number="199" />
             </template>
         </TestComponent>
-        <ElTable :data="tableData">
-            <ElTableColumn type="selection" width="55"></ElTableColumn>
-            <ElTableColumn label="name" prop="name"></ElTableColumn>
-            <ElTableColumn label="age" prop="age"></ElTableColumn>
-        </ElTable>
     </div>
 </template>
 
@@ -30,7 +24,6 @@
 import AsyncComponent from '@/components/AsyncComponent.vue'
 import TestComponent from '@/components/TestComponent.vue'
 import { useMyPlugin } from '@/plugins'
-import { ElTable, ElTableColumn } from 'element-plus'
 import {
     getCurrentInstance,
     onMounted,
@@ -77,18 +70,14 @@ const tableData = ref([
         }
     }
 ])
-const selectedRows = ref([])
 const testRef = ref()
 let addForm = reactive<AddFormType>({
-    name: '',
+    name: 'zs',
     age: 0,
     address: '',
     nest: {
         number: 100
     }
-    // cpu: 10,
-    // gpu: 5,
-    // memory: 100
 })
 
 const { age } = toRefs(addForm)
@@ -122,11 +111,7 @@ const updateInfo = (val?: AddFormType) => {
     }
 }
 
-const handleButton = () => {
-    if (testRef.value) {
-        console.log('testRef', testRef.value)
-    }
-}
+console.log('re-render')
 
 getData()
 

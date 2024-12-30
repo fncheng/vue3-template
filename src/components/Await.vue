@@ -8,7 +8,7 @@ import { defineOptions, ref } from 'vue'
 
 defineOptions({ name: 'AwaitComponent' })
 
-const props = defineProps<{ resolve: any }>()
+const props = defineProps<{ resolve: Promise<any> }>()
 defineSlots<{ default: (props: { data: any }) => any; error: () => any }>()
 
 const data = ref(null)
