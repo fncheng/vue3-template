@@ -30,6 +30,8 @@ ProvideContext()
             <RouterLink to="/pdf">pdf</RouterLink>
             <RouterLink to="/sse">sse</RouterLink>
             <RouterLink to="/chat">chat</RouterLink>
+            <RouterLink to="/el-form">el-form</RouterLink>
+            <RouterLink to="/editor">editor</RouterLink>
         </ul>
         <Suspense>
             <template #fallback>Loading number...</template>
@@ -73,6 +75,7 @@ ProvideContext()
     flex-direction: column;
     row-gap: 8px;
     margin-right: 10px;
+    min-width: fit-content;
 }
 .content-wrapper {
     flex: 1;

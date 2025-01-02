@@ -49,3 +49,9 @@ export const uploadFile = (data: any) =>
         },
         data
     })
+
+export const getContent = () =>
+    request<any, { transcriptResult: string }>({
+        url: 'http://127.0.0.1:3000/test/getContent',
+        method: 'get'
+    })

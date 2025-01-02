@@ -104,6 +104,14 @@ const routesMap: RouteConfig[] = [
             {
                 path: 'chat',
                 component: () => import('@/pages/Chat.vue')
+            },
+            {
+                path: 'el-form',
+                component: () => import('@/pages/ElForm/index.vue')
+            },
+            {
+                path: 'editor',
+                component: () => import('@/pages/editor/index.vue')
             }
         ]
     }
