@@ -3,6 +3,8 @@
         <h3>editor</h3>
         <audio
             @timeupdate="handleTimeUpdate"
+            @play="handleAudioPlay"
+            @pause="handleAudioPause"
             controls
             src="https://www.iflyrec.com/MediaStreamService/v1/files/HyjyPHJ-mz316425221292290048/data?token=3f417f133927480b805609a8524a3218"
         ></audio>
@@ -12,8 +14,8 @@
                 :key="index"
                 :data-wb="item.time[0]"
                 :data-we="item.time[1]"
-                >{{ item.text }}</span
-            >
+                >{{ item.text }}
+            </span>
         </div>
     </section>
 </template>
@@ -30,6 +32,9 @@ type ContentType = {
 }
 
 const content = ref<ContentType[]>([])
+const audioCurrentTime = ref<number>()
+const isPlaying = ref<boolean>(false)
+const lastTime = ref<number>()
 
 getContent().then((res) => {
     const { transcriptResult } = res
@@ -67,7 +72,8 @@ const handleTimeUpdate = (e: Event) => {
     const target = e.target as HTMLAudioElement
     const currentTime = Math.floor(target.currentTime * 1000)
     console.log(currentTime)
-    highlightCurrentWord(currentTime)
+    audioCurrentTime.value = currentTime
+    updateHighlight()
 }
 
 const highlightCurrentWord = (currentTime: number) => {
@@ -82,6 +88,22 @@ const highlightCurrentWord = (currentTime: number) => {
             }
         }
     })
+}
+
+const updateHighlight = () => {
+    if (!isPlaying.value) return
+    if (audioCurrentTime.value && audioCurrentTime.value !== lastTime.value) {
+        highlightCurrentWord(audioCurrentTime.value)
+        lastTime.value = audioCurrentTime.value
+    }
+    requestAnimationFrame(updateHighlight)
+}
+const handleAudioPlay = () => {
+    isPlaying.value = true
+    requestAnimationFrame(updateHighlight)
+}
+const handleAudioPause = () => {
+    isPlaying.value = false
 }
 </script>
 
