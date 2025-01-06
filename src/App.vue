@@ -23,7 +23,8 @@ ProvideContext()
             <RouterLink to="/">/</RouterLink>
             <RouterLink to="/home">Home</RouterLink>
             <RouterLink to="/about">About</RouterLink>
-            <RouterLink to="/about1">About1</RouterLink>
+            <RouterLink to="/suspense/cache">SuspenseCache</RouterLink>
+            <RouterLink to="/suspense/no-cache">SuspenseNoCache</RouterLink>
             <RouterLink to="/test">Test</RouterLink>
             <RouterLink to="/child-a">child-a</RouterLink>
             <RouterLink to="/child-b">child-b</RouterLink>

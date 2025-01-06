@@ -50,10 +50,6 @@ const routesMap: RouteConfig[] = [
                 path: 'home',
                 component: () => import('@/pages/Home.vue')
             },
-            {
-                path: 'about',
-                component: () => import('@/pages/About.vue')
-            },
             // {
             //     path: 'about',
             //     component: defineAsyncComponent({
@@ -62,8 +58,8 @@ const routesMap: RouteConfig[] = [
             //     })
             // },
             {
-                path: 'about1',
-                component: () => import('@/pages/About1.vue'),
+                path: 'about',
+                component: () => import('@/pages/About.vue'),
                 beforeEnter: (to, from, next) => {
                     const { number, name, abortController } = useFetchData()
                     to.meta.number = number
@@ -71,6 +67,19 @@ const routesMap: RouteConfig[] = [
                     to.meta.abortController = abortController
                     next()
                 }
+            },
+            {
+                path: 'suspense',
+                children: [
+                    {
+                        path: 'cache',
+                        component: () => import('@/pages/Suspense/cache.vue')
+                    },
+                    {
+                        path: 'no-cache',
+                        component: () => import('@/pages/Suspense/noCache.vue')
+                    }
+                ]
             },
             {
                 path: 'test',

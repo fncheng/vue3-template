@@ -11,6 +11,13 @@
         <div class="paragraph" :contenteditable="true" @click="handleActive">
             <span
                 v-for="(item, index) in content"
+                :class="{
+                    [$style.active]:
+                        audioCurrentTime &&
+                        audioCurrentTime >= item.time[0] &&
+                        audioCurrentTime <= item.time[1],
+                    [$style.vad]: true
+                }"
                 :key="index"
                 :data-wb="item.time[0]"
                 :data-we="item.time[1]"
@@ -32,9 +39,7 @@ type ContentType = {
 }
 
 const content = ref<ContentType[]>([])
-const audioCurrentTime = ref<number>()
-const isPlaying = ref<boolean>(false)
-const lastTime = ref<number>()
+const audioCurrentTime = ref<number | null>(null)
 
 getContent().then((res) => {
     const { transcriptResult } = res
@@ -46,64 +51,39 @@ getContent().then((res) => {
 const $style = useCssModule()
 
 /**
- * 高亮某个元素
- * @param target 需要高亮的元素
- */
-const highlight = (target: HTMLElement) => {
-    target.classList.add($style.active)
-}
-/**
  * 清除高亮
  */
 const clearHighlight = () => {
-    const spans = document.querySelectorAll('.paragraph span')
-    spans.forEach((span) => span.classList.remove($style.active))
+    audioCurrentTime.value = null
 }
 
 const handleActive = (e: MouseEvent) => {
-    const target = e.target as HTMLElement
     clearHighlight()
 
-    if (target.tagName === 'SPAN') {
-        highlight(target)
-    }
+    const target = e.target as HTMLElement
+    audioCurrentTime.value = target.dataset.wb ? Number(target.dataset.wb) : null
 }
 const handleTimeUpdate = (e: Event) => {
     const target = e.target as HTMLAudioElement
     const currentTime = Math.floor(target.currentTime * 1000)
-    console.log(currentTime)
-    audioCurrentTime.value = currentTime
-    updateHighlight()
+    updateAudioTime(currentTime)
 }
 
-const highlightCurrentWord = (currentTime: number) => {
-    clearHighlight()
-    const spans: NodeListOf<HTMLSpanElement> = document.querySelectorAll('.paragraph span')
-    spans.forEach((span) => {
-        const startTime = Number(span.dataset.wb)
-        const endTime = Number(span.dataset.we)
-        if (startTime && endTime) {
-            if (currentTime >= startTime && currentTime <= endTime) {
-                highlight(span)
-            }
-        }
+let rafId: any
+const updateAudioTime = (time: number) => {
+    if (rafId) cancelAnimationFrame(rafId)
+    rafId = requestAnimationFrame(() => {
+        audioCurrentTime.value = time
     })
 }
-
-const updateHighlight = () => {
-    if (!isPlaying.value) return
-    if (audioCurrentTime.value && audioCurrentTime.value !== lastTime.value) {
-        highlightCurrentWord(audioCurrentTime.value)
-        lastTime.value = audioCurrentTime.value
-    }
-    requestAnimationFrame(updateHighlight)
-}
 const handleAudioPlay = () => {
-    isPlaying.value = true
-    requestAnimationFrame(updateHighlight)
+    if (!rafId) requestAnimationFrame(updateAudioTime)
 }
 const handleAudioPause = () => {
-    isPlaying.value = false
+    if (rafId) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+    }
 }
 </script>
 
@@ -111,6 +91,11 @@ const handleAudioPause = () => {
 .active {
     color: #fff;
     background-color: #4499ff;
+}
+.vad {
+    transition:
+        background-color 0.05s ease,
+        color 0.05s ease;
 }
 </style>
 
