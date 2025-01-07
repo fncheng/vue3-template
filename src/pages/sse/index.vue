@@ -17,6 +17,9 @@ source.addEventListener('message', (e) => {
     console.log('Message from server:', e.data)
     // content.value += `${e.data}\n\n`
     const message = e.data
+    if (message === '[DONE]') {
+        source.close()
+    }
     displayMessageWithEffect(message)
 })
 
@@ -44,7 +47,7 @@ onUpdated(() => {
     console.log('update')
 })
 
-onBeforeUnmount(()=> {
+onBeforeUnmount(() => {
     source.close()
 })
 </script>

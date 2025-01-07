@@ -40,14 +40,27 @@ export const getEvents = () =>
         method: 'get'
     })
 
-export const uploadFile = (data: any) =>
+export const postUploadFile = (data: any) =>
     request({
-        url: 'http://127.0.0.1:3000/file/upload',
+        url: 'http://127.0.0.1:3000/test/upload',
         method: 'post',
         headers: {
             'Content-Type': 'multipart/form-data'
         },
         data
+    })
+
+export const mergeFileChunk = (data: any) =>
+    request({
+        url: 'http://127.0.0.1:3000/upload/merge',
+        method: 'post',
+        data
+    })
+export const checkFileChunk = (data: { fileHash: string }) =>
+    request<any, number[]>({
+        url: 'http://127.0.0.1:3000/upload/check',
+        method: 'get',
+        params: data
     })
 
 export const getContent = () =>

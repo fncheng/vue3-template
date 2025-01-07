@@ -90,6 +90,10 @@ const routesMap: RouteConfig[] = [
                 component: () => import('@/pages/pdf/index.vue')
             },
             {
+                path: 'file-upload',
+                component: () => import('@/pages/file-upload/index.vue')
+            },
+            {
                 path: 'sse',
                 component: () => import('@/pages/sse/index.vue')
             },

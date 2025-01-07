@@ -29,6 +29,7 @@ ProvideContext()
             <RouterLink to="/child-a">child-a</RouterLink>
             <RouterLink to="/child-b">child-b</RouterLink>
             <RouterLink to="/pdf">pdf</RouterLink>
+            <RouterLink to="/file-upload">file-upload</RouterLink>
             <RouterLink to="/sse">sse</RouterLink>
             <RouterLink to="/chat">chat</RouterLink>
             <RouterLink to="/el-form">el-form</RouterLink>
