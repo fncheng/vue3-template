@@ -66,6 +66,13 @@ export default defineConfig({
     server: {
         port: 7101,
         cors: true,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        proxy: {
+            '/proxyApi': {
+                target: 'http://127.0.0.1:3000',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/proxyApi/, '')
+            }
+        }
     }
 })

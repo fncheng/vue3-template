@@ -32,7 +32,8 @@ ProvideContext()
             <RouterLink to="/file-upload">file-upload</RouterLink>
             <RouterLink to="/sse">sse</RouterLink>
             <RouterLink to="/chat">chat</RouterLink>
-            <RouterLink to="/el-form">el-form</RouterLink>
+            <RouterLink to="/el/form">el-form</RouterLink>
+            <RouterLink to="/el/cascader">el-cascader</RouterLink>
             <RouterLink to="/editor">editor</RouterLink>
         </ul>
         <Suspense>
@@ -59,7 +60,9 @@ ProvideContext()
             <template #fallback>Loading...</template>
             <template #default>
                 <!-- <section class="content-wrapper"> -->
-                <RouterView :key="$route.fullPath" />
+                <main class="flex-1">
+                    <RouterView :key="$route.fullPath" />
+                </main>
                 <!-- </section> -->
             </template>
         </Suspense>

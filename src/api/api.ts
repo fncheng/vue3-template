@@ -68,3 +68,10 @@ export const getContent = () =>
         url: 'http://127.0.0.1:3000/test/getContent',
         method: 'get'
     })
+
+export const getNodes = (node?: string | number) =>
+    request<any, { nodes: any[] }>({
+        url: '/getNodes',
+        method: 'get',
+        params: { node }
+    })
