@@ -8,7 +8,7 @@
             controls
             src="https://www.iflyrec.com/MediaStreamService/v1/files/HyjyPHJ-mz316425221292290048/data?token=3f417f133927480b805609a8524a3218"
         ></audio>
-        <div class="paragraph" :contenteditable="true" @click="handleActive">
+        <div class="paragraph" :contenteditable="true" @click="handleActive" ref="paragraphRef">
             <span
                 v-for="(item, index) in content"
                 :class="{
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { getContent } from '@/api/api'
-import { ref, useCssModule } from 'vue'
+import { onMounted, ref, useCssModule } from 'vue'
 
 defineOptions({ name: 'EditorView' })
 
@@ -45,7 +45,6 @@ getContent().then((res) => {
     const { transcriptResult } = res
     const data = JSON.parse(transcriptResult)
     const { words } = data.ps[0]
-    console.log('res: ', words)
     content.value = words
 })
 const $style = useCssModule()
@@ -85,6 +84,24 @@ const handleAudioPause = () => {
         rafId = null
     }
 }
+
+//#region 监听文本修改
+const paragraphRef = ref<HTMLDivElement>()
+
+onMounted(() => {
+    const observer = new MutationObserver((ms) =>
+        ms.forEach((m) => {
+            if (m.type === 'characterData') {
+                console.log(m)
+                const target = m.target as HTMLSpanElement
+                console.log('Text changed:', target.parentElement?.getAttribute('data-wb'))
+            }
+        })
+    )
+    paragraphRef.value &&
+        observer.observe(paragraphRef.value, { characterData: true, subtree: true })
+})
+//#endregion
 </script>
 
 <style lang="scss" module>

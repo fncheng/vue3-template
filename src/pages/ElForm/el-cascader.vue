@@ -1,10 +1,15 @@
 <template>
     <ElCascader v-model:model-value="selectedValue" :options="options" :props="props"></ElCascader>
+    <div>
+        <p>接口并发控制</p>
+        <ElButton @click="handleRequest">按钮</ElButton>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { getNodes } from '@/api/api'
-import { ElCascader, type CascaderOption, type CascaderProps } from 'element-plus'
+import { getNodes, getNumber } from '@/api/api'
+import { ElButton, ElCascader, type CascaderOption, type CascaderProps } from 'element-plus'
+import pLimit from 'p-limit'
 import { ref } from 'vue'
 
 const selectedValue = ref([
@@ -40,4 +45,20 @@ const props: CascaderProps = {
         resolve([])
     }
 }
+
+//#region
+const taskCount = ref(10)
+/** 最大并发数 */
+const MAX_CONCURRENT_REQUESTS = 3
+/** 当前请求数 */
+const limit = pLimit(MAX_CONCURRENT_REQUESTS)
+
+const handleRequest = () => {
+    console.log(`开始 ${taskCount.value} 个任务`)
+    for (let i = 0; i < taskCount.value; i++) {
+        limit(() => getNumber({ id: i }))
+        console.log(`任务 ${i} 完成`)
+    }
+}
+//#endregion
 </script>

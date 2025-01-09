@@ -1,9 +1,10 @@
 import request, { axiosRequestWithAbort } from './index'
 
-export const getNumber = () =>
+export const getNumber = (params: any) =>
     request<any, { number: number }>({
         url: '/test/getNumber',
-        method: 'get'
+        method: 'get',
+        params
     })
 
 export const getNumberAbort = () =>
