@@ -1,12 +1,13 @@
 <template>
     <!-- <form> -->
     <input type="file" @change="handleFileChange" />
-    <button @click="handleUpload">upload</button>
+    <button @click="handleUpload">upload chunk</button>
+    <button @click="handleUploadSingle">单文件上传</button>
     <!-- </form> -->
 </template>
 
 <script setup lang="ts">
-import { checkFileChunk, mergeFileChunk } from '@/api/api'
+import { checkFileChunk, mergeFileChunk, uploadFileSingle } from '@/api/api'
 import axios from 'axios'
 import { ref } from 'vue'
 
@@ -22,6 +23,8 @@ const handleFileChange = (e: Event) => {
         fileList.value = Array.from(target.files)
     }
 }
+
+//#region 文件分片
 
 /**
  * 切片文件
@@ -49,7 +52,6 @@ async function generateFileHash(file: File) {
     const hashArray = Array.from(new Uint8Array(hashBuffer))
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
 }
-//#endregion
 
 /**
  * 检查已上传分片
@@ -125,5 +127,15 @@ async function uploadFile(file: File) {
 const handleUpload = () => {
     const file = fileList.value[0]
     uploadFile(file)
+}
+//#endregion
+
+const handleUploadSingle = () => {
+    const file = fileList.value[0]
+    const formData = new FormData()
+    formData.append('file', file)
+    uploadFileSingle(formData).then((res) => {
+        console.log('res: ', res)
+    })
 }
 </script>

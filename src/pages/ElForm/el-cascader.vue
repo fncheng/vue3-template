@@ -8,8 +8,9 @@
 
 <script setup lang="ts">
 import { getNodes, getNumber } from '@/api/api'
+import { pLimit } from '@/utils'
 import { ElButton, ElCascader, type CascaderOption, type CascaderProps } from 'element-plus'
-import pLimit from 'p-limit'
+// import pLimit from 'p-limit'
 import { ref } from 'vue'
 
 const selectedValue = ref([
@@ -53,11 +54,11 @@ const MAX_CONCURRENT_REQUESTS = 3
 /** 当前请求数 */
 const limit = pLimit(MAX_CONCURRENT_REQUESTS)
 
-const handleRequest = () => {
+const handleRequest = async () => {
     console.log(`开始 ${taskCount.value} 个任务`)
     for (let i = 0; i < taskCount.value; i++) {
-        limit(() => getNumber({ id: i }))
-        console.log(`任务 ${i} 完成`)
+        let res = limit(() => getNumber({ id: i }))
+        console.log(`任务 ${i} 完成`, res)
     }
 }
 //#endregion
