@@ -5,5 +5,6 @@ declare module 'vue' {
         vBgColor: ObjectDirective<any, string>
         vColor: FunctionDirective<any, string>
         vAlertColor: FunctionDirective<any, string>
+        vLazyLoad: ObjectDirective<any, boolean>
     }
 }

@@ -76,3 +76,13 @@ export const getNodes = (node?: string | number) =>
         method: 'get',
         params: { node }
     })
+
+export const uploadFileSingle = (data: any) =>
+    request({
+        url: '/upload/single',
+        method: 'post',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        data
+    })
