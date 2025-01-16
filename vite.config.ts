@@ -72,6 +72,10 @@ export default defineConfig({
                 target: 'http://127.0.0.1:3000',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/proxyApi/, '')
+            },
+            '/audio/downloadFile': {
+                target: 'http://10.1.200.39:38899',
+                changeOrigin: true
             }
         }
     }

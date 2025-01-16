@@ -5,7 +5,7 @@ import qs from 'qs'
 
 const service = axios.create({
     baseURL: '/proxyApi',
-    timeout: 20000
+    timeout: 60000
 })
 
 const controllers = new Map<string, AbortController>()

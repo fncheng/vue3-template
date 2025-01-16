@@ -86,3 +86,9 @@ export const uploadFileSingle = (data: any) =>
         },
         data
     })
+
+export const getAudio = () =>
+    request({
+        url: '/audio/get',
+        method: 'get'
+    })

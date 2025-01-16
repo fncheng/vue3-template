@@ -24,6 +24,13 @@ const initRoutes: RouteRecordRaw[] = [
 
 const cachedAsyncComponent = new Map()
 
+/**
+ * 延迟加载组件并缓存异步组件
+ * @param promise 异步组件
+ * @param time 延迟时间
+ * @param key 缓存键
+ * @returns
+ */
 export const loadWithDelay = (promise: Promise<any>, time: number, key?: string) => {
     if (key && cachedAsyncComponent.has(key)) {
         return cachedAsyncComponent.get(key)

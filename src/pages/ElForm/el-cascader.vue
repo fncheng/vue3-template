@@ -2,7 +2,7 @@
     <ElCascader v-model:model-value="selectedValue" :options="options" :props="props"></ElCascader>
     <div>
         <p>接口并发控制</p>
-        <ElButton @click="handleRequest">按钮</ElButton>
+        <ElButton @click="handleClick">按钮</ElButton>
     </div>
     <div v-html="replaceHtml" v-lazy-load></div>
 </template>
@@ -11,6 +11,7 @@
 import { getNodes, getNumber } from '@/api/api'
 import { pLimit } from '@/utils'
 import { ElButton, ElCascader, type CascaderOption, type CascaderProps } from 'element-plus'
+import { debounce } from 'lodash-es'
 // import pLimit from 'p-limit'
 import { ref } from 'vue'
 
@@ -54,6 +55,8 @@ const taskCount = ref(10)
 const MAX_CONCURRENT_REQUESTS = 3
 /** 当前请求数 */
 const limit = pLimit(MAX_CONCURRENT_REQUESTS)
+
+const handleClick = debounce(() => handleRequest(), 1000)
 
 const handleRequest = async () => {
     console.log(`开始 ${taskCount.value} 个任务`)
