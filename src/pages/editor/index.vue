@@ -96,7 +96,7 @@ const handleActive = (e: MouseEvent) => {
 }
 const handleTimeUpdate = (e: Event) => {
     const target = e.target as HTMLAudioElement
-    const currentTime = Math.floor(target.currentTime * 1000)
+    const currentTime = target.currentTime * 1000
     updateAudioTime(currentTime)
 
     console.log(target.currentTime * 1000)
