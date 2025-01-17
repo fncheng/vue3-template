@@ -54,6 +54,10 @@ export default defineConfig({
                 {
                     src: 'node_modules/pdfjs-dist/build/pdf.worker.mjs',
                     dest: 'assets'
+                },
+                {
+                    src: './src/pages/file-upload/worker.ts',
+                    dest: 'assets'
                 }
             ]
         })

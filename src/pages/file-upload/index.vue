@@ -4,9 +4,11 @@
     <button @click="handleUpload">upload chunk</button>
     <button @click="handleUploadSingle">单文件上传</button>
     <!-- </form> -->
+    <button @click="handleUploadWebWorker">web Worker上传</button>
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus'
 import { checkFileChunk, mergeFileChunk, uploadFileSingle } from '@/api/api'
 import axios from 'axios'
 import { ref } from 'vue'
@@ -25,7 +27,6 @@ const handleFileChange = (e: Event) => {
 }
 
 //#region 文件分片
-
 /**
  * 切片文件
  * @param file
@@ -40,6 +41,17 @@ function sliceFile(file: File, chunkSize = 5 * 1024 * 1024) {
         current += chunkSize
     }
     return chunks
+}
+
+/**
+ * 合并分片
+ * @param fileHash
+ * @param totalChunks
+ */
+async function mergeChunks(fileHash: string, totalChunks: number) {
+    const res: any = await mergeFileChunk({ fileHash, totalChunks })
+    console.log('res: ', res)
+    ElMessage.success(res?.message || res?.error)
 }
 
 /**
@@ -70,7 +82,6 @@ async function checkUploadedChunks(fileHash: string) {
  * @param fileHash
  */
 async function uploadChunks(
-    file: File,
     chunks: Blob[],
     uploadedChunks: number[] | undefined,
     fileHash: string
@@ -101,26 +112,34 @@ async function uploadChunks(
     }
 }
 
-/**
- * 合并分片
- * @param fileHash
- * @param totalChunks
- */
-async function mergeChunks(fileHash: string, totalChunks: number) {
-    await mergeFileChunk({ fileHash, totalChunks })
-}
-
 async function uploadFile(file: File) {
     const chunkSize = 5 * 1024 * 1024 // 5M
     const fileHash = await generateFileHash(file)
     const chunks = sliceFile(file, chunkSize)
+    checkChunkThenUpload(chunks, fileHash)
+}
 
+const checkChunkThenUpload = async (chunks: Blob[], hash: string) => {
     // 检查已上传分片
-    const uploadedChunks = await checkUploadedChunks(fileHash)
+    const uploadedChunks: any = await checkUploadedChunks(hash)
+    console.group('uploadedChunks: ', uploadedChunks)
+    if (!Array.isArray(uploadedChunks) && uploadedChunks?.message) {
+        ElMessage.success(uploadedChunks?.message)
+        return
+    } else {
+        startChunkUpload(chunks, uploadedChunks, hash)
+    }
+}
+
+/**
+ * 开始切片上传
+ */
+const startChunkUpload = async (chunks: Blob[], existedChunks: number[], hash: string) => {
+    console.group('开始切片上传')
     // 上传分片
-    await uploadChunks(file, chunks, uploadedChunks, fileHash)
+    await uploadChunks(chunks, existedChunks, hash)
     // 合并分片
-    await mergeChunks(fileHash, chunks.length)
+    await mergeChunks(hash, chunks.length)
     console.log('File uploaded successfully!')
 }
 
@@ -130,12 +149,49 @@ const handleUpload = () => {
 }
 //#endregion
 
+/**
+ * 单文件上传
+ */
 const handleUploadSingle = () => {
     const file = fileList.value[0]
     const formData = new FormData()
     formData.append('file', file)
-    uploadFileSingle(formData).then((res) => {
+    uploadFileSingle(formData).then((res: any) => {
         console.log('res: ', res)
+        ElMessage.success(res?.message || res?.error)
     })
 }
+
+//#region Web Worker上传
+import MyWorker from './worker.ts?worker'
+const worker = new MyWorker()
+const fileHash = ref('')
+const chunks = ref<Blob[]>([])
+const uploadedChunks = ref<number[]>([])
+worker.onmessage = async (e: MessageEvent) => {
+    console.log('e****: ', e)
+    const { type, data } = e.data
+    if (type === 'slice') {
+        console.log('Received slice data:', data)
+        chunks.value = data
+        startChunkUpload(data, uploadedChunks.value, fileHash.value)
+    }
+}
+
+const handleUploadWebWorker = async () => {
+    const file = fileList.value[0]
+    const hash = await generateFileHash(file)
+    const uploadedChunks: any = await checkUploadedChunks(hash)
+    console.group('uploadedChunks: ', uploadedChunks)
+    if (!Array.isArray(uploadedChunks) && uploadedChunks?.message) {
+        ElMessage.success(uploadedChunks?.message)
+        return
+    } else {
+        const file = fileList.value[0]
+        fileHash.value = hash
+        uploadedChunks.value = uploadedChunks
+        worker.postMessage({ type: 'processFile', data: file })
+    }
+}
+//#endregion
 </script>

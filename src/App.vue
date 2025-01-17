@@ -59,11 +59,9 @@ ProvideContext()
         <Suspense>
             <template #fallback>Loading...</template>
             <template #default>
-                <!-- <section class="content-wrapper"> -->
                 <main class="flex-1">
                     <RouterView :key="$route.fullPath" />
                 </main>
-                <!-- </section> -->
             </template>
         </Suspense>
     </div>
@@ -79,10 +77,7 @@ ProvideContext()
     display: flex;
     flex-direction: column;
     row-gap: 8px;
-    margin-right: 10px;
     min-width: fit-content;
-}
-.content-wrapper {
-    flex: 1;
+    padding-right: 10px;
 }
 </style>
