@@ -15,12 +15,32 @@ const myPlugin: ObjectPlugin<{ message: string }> = {
     }
 }
 
+export const ourPlugin = (options: { message: string }) => {
+    return {
+        install(app: App) {
+            console.log('app: ', app)
+            const ourPluginMethod = () => {
+                console.log('ourPluginMethod', options.message)
+            }
+            app.provide('ourPluginMethod', ourPluginMethod)
+        }
+    }
+}
+
 export function useMyPlugin() {
     const myPluginMethod = inject<() => void>('myPluginMethod')
     if (!myPluginMethod) {
         throw new Error('myPlugin is not provided. Make sure to use app.use(myPlugin)!')
     }
     return { myPluginMethod }
+}
+
+export function useOurPlugin() {
+    const ourPluginMethod = inject<() => void>('ourPluginMethod')
+    if (!ourPluginMethod) {
+        throw new Error('ourPlugin is not provided. Make sure to use app.use(ourPlugin)!')
+    }
+    return { ourPluginMethod }
 }
 
 export default myPlugin

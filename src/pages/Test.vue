@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import AsyncComponent from '@/components/AsyncComponent.vue'
 import TestComponent from '@/components/TestComponent.vue'
-import { useMyPlugin } from '@/plugins'
+import { useMyPlugin, useOurPlugin } from '@/plugins'
 import {
     getCurrentInstance,
     onMounted,
@@ -118,11 +118,13 @@ getData()
 const { appContext } = getCurrentInstance() as ComponentInternalInstance
 
 const { myPluginMethod } = useMyPlugin()
+const { ourPluginMethod } = useOurPlugin()
 
 onMounted(() => {
     console.log('this: ', appContext)
     console.log('myPluginMethod: ', myPluginMethod)
     myPluginMethod()
+    ourPluginMethod()
 })
 </script>
 

@@ -5,10 +5,16 @@
     <button @click="handleUploadSingle">单文件上传</button>
     <!-- </form> -->
     <button @click="handleUploadWebWorker">web Worker上传</button>
+    <div class="max-w-[800px] mt-8">
+        <ElProgress
+            :percentage="percentage"
+            :format="(percentage) => `${percentage}%`"
+        ></ElProgress>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElProgress } from 'element-plus'
 import { checkFileChunk, mergeFileChunk, uploadFileSingle } from '@/api/api'
 import axios from 'axios'
 import { ref } from 'vue'
@@ -17,12 +23,22 @@ defineOptions({ name: 'FileUploadView' })
 
 //#region 文件分片上传
 const fileList = ref<File[]>([])
+const percentage = ref<number>(0)
 
 const handleFileChange = (e: Event) => {
     const target = e.target as HTMLInputElement
     console.log('value: ', target.files![0])
     if (target.files && target.files.length > 0) {
         fileList.value = Array.from(target.files)
+    }
+}
+
+const validateFile = () => {
+    if (fileList.value.length > 0) {
+        return true
+    } else {
+        ElMessage.error('请先选择文件')
+        return false
     }
 }
 
@@ -46,10 +62,11 @@ function sliceFile(file: File, chunkSize = 5 * 1024 * 1024) {
 /**
  * 合并分片
  * @param fileHash
+ * @param fileName
  * @param totalChunks
  */
-async function mergeChunks(fileHash: string, totalChunks: number) {
-    const res: any = await mergeFileChunk({ fileHash, totalChunks })
+async function mergeChunks(fileHash: string, fileName: string, totalChunks: number) {
+    const res: any = await mergeFileChunk({ fileHash, fileName, totalChunks })
     console.log('res: ', res)
     ElMessage.success(res?.message || res?.error)
 }
@@ -139,11 +156,12 @@ const startChunkUpload = async (chunks: Blob[], existedChunks: number[], hash: s
     // 上传分片
     await uploadChunks(chunks, existedChunks, hash)
     // 合并分片
-    await mergeChunks(hash, chunks.length)
+    await mergeChunks(hash, fileList.value[0].name, chunks.length)
     console.log('File uploaded successfully!')
 }
 
 const handleUpload = () => {
+    if (!validateFile()) return
     const file = fileList.value[0]
     uploadFile(file)
 }
@@ -153,10 +171,20 @@ const handleUpload = () => {
  * 单文件上传
  */
 const handleUploadSingle = () => {
+    if (!validateFile()) return
     const file = fileList.value[0]
     const formData = new FormData()
     formData.append('file', file)
-    uploadFileSingle(formData).then((res: any) => {
+    uploadFileSingle(formData, (progressEvent: ProgressEvent) => {
+        if (progressEvent.total) {
+            percentage.value = Math.round((progressEvent.loaded / progressEvent.total) * 100)
+            console.log(
+                `File Upload progress: ${Math.round(
+                    (progressEvent.loaded / progressEvent.total) * 100
+                )}%`
+            )
+        }
+    }).then((res: any) => {
         console.log('res: ', res)
         ElMessage.success(res?.message || res?.error)
     })
@@ -179,6 +207,7 @@ worker.onmessage = async (e: MessageEvent) => {
 }
 
 const handleUploadWebWorker = async () => {
+    if (!validateFile()) return
     const file = fileList.value[0]
     const hash = await generateFileHash(file)
     const uploadedChunks: any = await checkUploadedChunks(hash)

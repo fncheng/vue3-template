@@ -6,7 +6,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 // ixmport 'element-plus/theme-chalk/index.css'
-import myPlugin from './plugins'
+import myPlugin, { ourPlugin } from './plugins'
 import directives from './directives'
 
 const app = createApp(App)
@@ -16,6 +16,7 @@ Object.keys(directives).forEach((key) => {
 })
 
 app.use(myPlugin, { message: 'hello' })
+app.use(ourPlugin({ message: 'hello' }))
 app.use(router)
 
 app.mount('#app')

@@ -77,14 +77,15 @@ export const getNodes = (node?: string | number) =>
         params: { node }
     })
 
-export const uploadFileSingle = (data: any) =>
+export const uploadFileSingle = (data: any, onUploadProgress?: (progressEvent: any) => void) =>
     request({
         url: '/upload/single',
         method: 'post',
         headers: {
             'Content-Type': 'multipart/form-data'
         },
-        data
+        data,
+        onUploadProgress
     })
 
 export const getAudio = () =>
