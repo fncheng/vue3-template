@@ -41,3 +41,27 @@ export const pLimit = (max: number) => {
     }
     return enqueueTask
 }
+
+/**
+ * 创建一个定时器，每隔ms执行一遍cb，不会立即执行cb
+ * @param cb - 回调函数
+ * @param ms - 每隔多少毫秒执行一次
+ * @returns 返回一个取消定时器的函数
+ */
+export const mySetInterval = (cb: () => void, ms: number) => {
+    let timeoutId: number
+    const excute = () => {
+        if (timeoutId) {
+            clearTimeout(timeoutId)
+        }
+        try {
+            cb()
+            timeoutId = setTimeout(excute, ms)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+    // timeoutId = setTimeout(excute, ms)
+    excute()
+    return () => clearTimeout(timeoutId)
+}

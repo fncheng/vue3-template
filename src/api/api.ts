@@ -57,7 +57,7 @@ export const mergeFileChunk = (data: any) =>
         method: 'post',
         data
     })
-export const checkFileChunk = (data: { fileHash: string }) =>
+export const checkFileChunk = (data: { fileHash: string; fileName: string }) =>
     request<any, number[]>({
         url: 'http://127.0.0.1:3000/upload/check',
         method: 'get',
@@ -82,7 +82,7 @@ export const uploadFileSingle = (data: any, onUploadProgress?: (progressEvent: a
         url: '/upload/single',
         method: 'post',
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data;charset=utf8'
         },
         data,
         onUploadProgress
@@ -93,3 +93,5 @@ export const getAudio = () =>
         url: '/audio/get',
         method: 'get'
     })
+
+export const getRedirect = () => request.get('/redirect')

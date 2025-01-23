@@ -86,8 +86,8 @@ async function generateFileHash(file: File) {
  * 检查已上传分片
  * @param fileHash
  */
-async function checkUploadedChunks(fileHash: string) {
-    const res = await checkFileChunk({ fileHash })
+async function checkUploadedChunks(fileHash: string, fileName: string) {
+    const res = await checkFileChunk({ fileHash, fileName })
     return res
 }
 
@@ -138,7 +138,7 @@ async function uploadFile(file: File) {
 
 const checkChunkThenUpload = async (chunks: Blob[], hash: string) => {
     // 检查已上传分片
-    const uploadedChunks: any = await checkUploadedChunks(hash)
+    const uploadedChunks: any = await checkUploadedChunks(hash, fileList.value[0].name)
     console.group('uploadedChunks: ', uploadedChunks)
     if (!Array.isArray(uploadedChunks) && uploadedChunks?.message) {
         ElMessage.success(uploadedChunks?.message)
@@ -210,7 +210,7 @@ const handleUploadWebWorker = async () => {
     if (!validateFile()) return
     const file = fileList.value[0]
     const hash = await generateFileHash(file)
-    const uploadedChunks: any = await checkUploadedChunks(hash)
+    const uploadedChunks: any = await checkUploadedChunks(hash, file.name)
     console.group('uploadedChunks: ', uploadedChunks)
     if (!Array.isArray(uploadedChunks) && uploadedChunks?.message) {
         ElMessage.success(uploadedChunks?.message)

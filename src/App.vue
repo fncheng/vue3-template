@@ -35,6 +35,8 @@ ProvideContext()
             <RouterLink to="/el/form">el-form</RouterLink>
             <RouterLink to="/el/cascader">el-cascader</RouterLink>
             <RouterLink to="/editor">editor</RouterLink>
+            <RouterLink to="/canvas">canvas</RouterLink>
+            <RouterLink to="/big-img">big-img</RouterLink>
         </ul>
         <Suspense>
             <template #fallback>Loading number...</template>

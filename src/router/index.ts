@@ -141,6 +141,14 @@ const routesMap: RouteConfig[] = [
             {
                 path: 'editor',
                 component: () => import('@/pages/editor/index.vue')
+            },
+            {
+                path: 'canvas',
+                component: () => import('@/pages/canvas/index.vue')
+            },
+            {
+                path: 'big-img',
+                component: () => import('@/pages/big-img/index.vue')
             }
         ]
     }
@@ -170,7 +178,7 @@ const handleAsyncRoutes = (routes: RouteConfig[]): any[] =>
 const asyncRoutes = handleAsyncRoutes(routesMap)
 
 const router = createRouter({
-    history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/app-vue2' : '/'),
+    history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? '/app-vue2' : '/vue-app'),
     routes: asyncRoutes
 })
 

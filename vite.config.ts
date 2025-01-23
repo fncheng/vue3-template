@@ -11,7 +11,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: (process.env as any).__POWERED_BY_QIANKUN__ ? '/app-vue2/' : '/',
+    base: (process.env as any).__POWERED_BY_QIANKUN__ ? '/app-vue2/' : '/vue-app/',
     // build: {
     //   lib: {
     //     entry: './src/main.ts', // 入口文件

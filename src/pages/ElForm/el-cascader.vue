@@ -15,10 +15,7 @@ import { debounce } from 'lodash-es'
 // import pLimit from 'p-limit'
 import { ref } from 'vue'
 
-const selectedValue = ref([
-    ['zhejiang', 'hangzhou'],
-    ['jiangsu', 'xuzhou']
-])
+const selectedValue = ref([['zhejiang', 'hangzhou']])
 const options = ref<CascaderOption[]>([])
 
 const getNodeData = (node?: string | number) =>

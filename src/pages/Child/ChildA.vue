@@ -3,18 +3,15 @@
     <button @click="count++">{{ count }}</button>
     <p @click="globalContext.incrementAge">{{ globalContext.state.age }}</p>
 
-    <my-pack>
-        <template #header>header</template>
-        <template #footer>footer</template>
-    </my-pack>
-
-    <button @click="handleStartTimeout(count++)">发起一个setTimeout</button>
+    <button @click="handleStartTimeout()">发起一个setTimeout</button>
     <button @click="handleStopTimeout">停止setTimeout</button>
+    <button @click="handleStartRedirect">Redirect</button>
 </template>
 
 <script setup lang="ts">
+import { getRedirect } from '@/api/api'
 import { useContext } from '@/context'
-import { asyncInterval } from '@/utils'
+import { mySetInterval } from '@/utils'
 import { ElMessage } from 'element-plus'
 import { ref, watch } from 'vue'
 
@@ -35,31 +32,31 @@ watch(
     }
 )
 
-const clearFunc = ref(() => {})
-const intervalNum = ref<number>()
-const handleStartTimeout = (id: number) => {
-    // setTimeout(() => {
-    //     console.log('timeout:', id)
-    // }, 2000)
-    const interval = setInterval(() => {
-        console.log('timeout:', id)
-    }, 1000)
-    // const clear = asyncInterval(async () => {
-    //     console.log('timeout:', id)
-    // }, 1000)
+const stopFunc = ref()
+const handleStartTimeout = () => {
+    const stop = mySetInterval(() => {
+        console.log('timeout: ', count.value++)
+    }, 2000)
 
-    // clearFunc.value = clear
-    intervalNum.value = interval
+    stopFunc.value = stop
 }
 const handleStopTimeout = () => {
-    // clearFunc.value()
-    clearInterval(intervalNum.value)
+    typeof stopFunc.value === 'function' && stopFunc.value()
+}
+const handleStartRedirect = async () => {
+    let res = await getRedirect()
+    if (res) {
+        console.log('res: ', res)
+    }
 }
 </script>
 
 <style lang="scss" module>
 .box-wrapper {
     border: 1px solid #ccc;
+    transition:
+        background-color 0.5s ease,
+        color 0.5s ease;
     &:hover {
         background-color: pink;
         color: blue;
