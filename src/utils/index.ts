@@ -43,12 +43,18 @@ export const pLimit = (max: number) => {
 }
 
 /**
- * 创建一个定时器，每隔ms执行一遍cb，不会立即执行cb
+ * 创建一个定时器，每隔ms执行一遍cb，默认不会立即执行cb
  * @param cb - 回调函数
  * @param ms - 每隔多少毫秒执行一次
- * @returns 返回一个取消定时器的函数
+ * @param {Object} [options] - 可选参数
+ * @param {boolean} [options.immediate=false] - 是否立即执行cb
+ * @returns {Function} - 一个取消定时器的函数
  */
-export const mySetInterval = (cb: () => void, ms: number) => {
+export const mySetInterval = (
+    cb: () => void,
+    ms: number,
+    options: { immediate?: boolean } = { immediate: false }
+) => {
     let timeoutId: number
     const excute = () => {
         if (timeoutId) {
@@ -61,7 +67,8 @@ export const mySetInterval = (cb: () => void, ms: number) => {
             console.error(e)
         }
     }
-    // timeoutId = setTimeout(excute, ms)
-    excute()
+    if (options?.immediate) {
+        cb()
+    } else timeoutId = setTimeout(excute, ms)
     return () => clearTimeout(timeoutId)
 }

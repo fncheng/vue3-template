@@ -45,8 +45,8 @@ import { computed, defineAsyncComponent, onBeforeUnmount, onUpdated, ref } from 
 import { ElTable, ElTableColumn } from 'element-plus'
 import { useRoute } from 'vue-router'
 
-const Await: (typeof import('../components/Await.vue'))['default'] = defineAsyncComponent(
-    () => import('../components/Await.vue')
+const Await: (typeof import('@/components/Await.vue'))['default'] = defineAsyncComponent(
+    () => import('@/components/Await.vue')
 )
 
 declare module 'vue-router' {

@@ -1,4 +1,4 @@
-import { useFetchData } from '@/pages/useFetchData'
+import { useFetchData } from '@/pages/About/useFetchData'
 import { type RouteRecordRaw, createWebHistory, createRouter } from 'vue-router'
 
 const modules = import.meta.glob('../pages/**/*.vue')
@@ -57,6 +57,10 @@ const routesMap: RouteConfig[] = [
                 path: 'home',
                 component: () => import('@/pages/Home.vue')
             },
+            {
+                path: 'login',
+                component: () => import('@/pages/login/index.vue')
+            },
             // {
             //     path: 'about',
             //     component: defineAsyncComponent({
@@ -66,7 +70,7 @@ const routesMap: RouteConfig[] = [
             // },
             {
                 path: 'about',
-                component: () => import('@/pages/About.vue'),
+                component: () => import('@/pages/About/About.vue'),
                 beforeEnter: (to, from, next) => {
                     const { number, name, abortController } = useFetchData()
                     to.meta.number = number

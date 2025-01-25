@@ -95,3 +95,5 @@ export const getAudio = () =>
     })
 
 export const getRedirect = () => request.get('/redirect')
+
+export const getLogin = () => request.get('/login')

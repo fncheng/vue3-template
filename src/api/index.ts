@@ -33,6 +33,7 @@ service.interceptors.request.use(
         }
         if (key && controllers.has(key)) {
             controllers.get(key)?.abort()
+            controllers.delete(key)
         }
         if (key) {
             controllers.set(key, controller)
@@ -49,14 +50,20 @@ service.interceptors.request.use(
 // 响应拦截器，移除已完成请求的 AbortController
 service.interceptors.response.use(
     (response) => {
+        console.log('response1111: ', response);
         if (response.config.url) {
             controllers.delete(response.config.url)
         }
         if (response.status === 200) {
             return response.data
         }
+        if (response.status === 302) {
+            console.log("redirect....")
+            window.location.href = response.headers.location
+        }
     },
     (err) => {
+        console.log('err: ', err);
         Promise.reject(err).catch((err) => {
             // 如果请求被取消了
             if (axios.isCancel(err)) {

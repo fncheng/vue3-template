@@ -6,6 +6,7 @@
     <button @click="handleStartTimeout()">发起一个setTimeout</button>
     <button @click="handleStopTimeout">停止setTimeout</button>
     <button @click="handleStartRedirect">Redirect</button>
+    <button ref="buttonRef" @click="getRef">getRef</button>
 </template>
 
 <script setup lang="ts">
@@ -13,7 +14,7 @@ import { getRedirect } from '@/api/api'
 import { useContext } from '@/context'
 import { mySetInterval } from '@/utils'
 import { ElMessage } from 'element-plus'
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 
 const count = ref<number>(1)
 
@@ -48,6 +49,10 @@ const handleStartRedirect = async () => {
     if (res) {
         console.log('res: ', res)
     }
+}
+const templateRef = useTemplateRef('buttonRef')
+const getRef = () => {
+    console.log(templateRef.value)
 }
 </script>
 

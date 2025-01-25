@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useNumber } from '@/pages/useNumber'
+import { ref } from 'vue'
+import { useNumber } from '@/pages/About/useNumber'
 import { css } from '@emotion/css'
 const blue = css`
     color: blue;
@@ -19,7 +19,7 @@ export type AsyncComponentEmits = {
     onLoaded: []
 }
 const props = defineProps<AsyncComponentProps>()
-const emit = defineEmits<AsyncComponentEmits>()
+defineEmits<AsyncComponentEmits>()
 const number = ref(props.number || 100)
 const getNumber = async () => {
     const value = await useNumber()
@@ -27,14 +27,4 @@ const getNumber = async () => {
 }
 console.log('async component render')
 getNumber()
-
-const handleClick = () => {
-    // props.onLoaded()
-    // emit('onLoaded')
-}
-
-onMounted(() => {
-    // emit('onloaded')
-    // props.onLoaded()
-})
 </script>
