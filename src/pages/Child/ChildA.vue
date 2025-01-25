@@ -11,14 +11,14 @@
 
 <script setup lang="ts">
 import { getRedirect } from '@/api/api'
-import { useContext } from '@/context'
+import { useGlobalContext } from '@/context'
 import { mySetInterval } from '@/utils'
 import { ElMessage } from 'element-plus'
 import { ref, useTemplateRef, watch } from 'vue'
 
 const count = ref<number>(1)
 
-const globalContext = useContext()
+const globalContext = useGlobalContext()
 console.log('globalContext: ', globalContext)
 
 watch(

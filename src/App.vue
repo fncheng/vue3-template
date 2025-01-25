@@ -2,7 +2,7 @@
 import { defineAsyncComponent, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { loadWithDelay } from './router'
-import { ProvideContext } from './context'
+import { ProvideGlobalContext } from './context'
 
 // const AsyncComponent = defineAsyncComponent(() =>
 //     loadWithDelay(import('./pages/AsyncComponent.vue'), 2000)
@@ -14,7 +14,7 @@ const AsyncComponent = defineAsyncComponent({
 })
 const showAsyncComponent = ref<boolean>(false)
 
-ProvideContext()
+ProvideGlobalContext()
 </script>
 
 <template>
@@ -26,6 +26,7 @@ ProvideContext()
             <RouterLink to="/suspense/cache">SuspenseCache</RouterLink>
             <RouterLink to="/suspense/no-cache">SuspenseNoCache</RouterLink>
             <RouterLink to="/test">Test</RouterLink>
+            <RouterLink to="/context">Context</RouterLink>
             <RouterLink to="/child-a">child-a</RouterLink>
             <RouterLink to="/child-b">child-b</RouterLink>
             <RouterLink to="/pdf">pdf</RouterLink>

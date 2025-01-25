@@ -8,8 +8,10 @@ import router from './router'
 // ixmport 'element-plus/theme-chalk/index.css'
 import myPlugin, { ourPlugin } from './plugins'
 import directives from './directives'
+import { createPinia } from 'pinia'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 Object.keys(directives).forEach((key) => {
     app.directive(key, directives[key as keyof typeof directives])
@@ -18,6 +20,7 @@ Object.keys(directives).forEach((key) => {
 app.use(myPlugin, { message: 'hello' })
 app.use(ourPlugin({ message: 'hello' }))
 app.use(router)
+app.use(pinia)
 
 app.mount('#app')
 

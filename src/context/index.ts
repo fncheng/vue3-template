@@ -8,9 +8,10 @@ type StoreType = {
 type ContextType = {
     state: Readonly<StoreType>
     incrementAge: () => void
+    updateName: () => void
 }
 
-export function ProvideContext() {
+export function ProvideGlobalContext() {
     const __state = reactive<StoreType>({
         name: 'zs',
         age: 20
@@ -18,13 +19,16 @@ export function ProvideContext() {
     const incrementAge = () => {
         __state.age++
     }
-    provide('GlobalContext', { state: readonly(__state), incrementAge })
+    const updateName = () => {
+        __state.name += '1'
+    }
+    provide('GlobalContext', { state: readonly(__state), incrementAge, updateName })
 }
 
-export function useContext() {
+export function useGlobalContext() {
     const context = inject<ContextType>('GlobalContext')
     if (!context) {
-        throw new Error('useContext must be used within a ProvideContext!')
+        throw new Error('useGlobalContext must be used within a ProvideGlobalContext!')
     }
     return context
 }

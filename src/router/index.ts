@@ -126,6 +126,10 @@ const routesMap: RouteConfig[] = [
                 component: () => import('@/pages/Child/ChildA.vue')
             },
             {
+                path: '/context',
+                component: () => import('@/pages/context/index.vue')
+            },
+            {
                 path: 'chat',
                 component: () => import('@/pages/Chat.vue')
             },
