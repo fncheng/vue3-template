@@ -1,4 +1,5 @@
 import { useFetchData } from '@/pages/About/useFetchData'
+import { useFetchPieData } from '@/pages/About/useFetchPieData'
 import { type RouteRecordRaw, createWebHistory, createRouter } from 'vue-router'
 
 const modules = import.meta.glob('../pages/**/*.vue')
@@ -76,6 +77,7 @@ const routesMap: RouteConfig[] = [
                     to.meta.number = number
                     to.meta.name = name
                     to.meta.abortController = abortController
+                    to.meta.pieData = useFetchPieData()
                     next()
                 }
             },

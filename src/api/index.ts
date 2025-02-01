@@ -50,7 +50,6 @@ service.interceptors.request.use(
 // 响应拦截器，移除已完成请求的 AbortController
 service.interceptors.response.use(
     (response) => {
-        console.log('response1111: ', response);
         if (response.config.url) {
             controllers.delete(response.config.url)
         }
@@ -77,6 +76,10 @@ service.interceptors.response.use(
     }
 )
 
+/**
+ * 提供方法调用主动取消请求
+ * @param url 
+ */
 export function abortRequest(url: string) {
     const controller = controllers.get(url)
     if (controller) {

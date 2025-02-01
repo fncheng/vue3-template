@@ -1,20 +1,22 @@
 <template>
     <div :class="[$style['box-wrapper']]">Pack: 123</div>
-    <button @click="count++">{{ count }}</button>
-    <p @click="globalContext.incrementAge">{{ globalContext.state.age }}</p>
-
-    <button @click="handleStartTimeout()">发起一个setTimeout</button>
-    <button @click="handleStopTimeout">停止setTimeout</button>
-    <button @click="handleStartRedirect">Redirect</button>
-    <button ref="buttonRef" @click="getRef">getRef</button>
+    <div>
+        <button @click="count++">{{ count }}</button>
+        <p @click="globalContext.incrementAge">{{ globalContext.state.age }}</p>
+    </div>
+    <div>
+        <button @click="handleStartTimeout()">发起一个setTimeout</button>
+        <button @click="handleStopTimeout">停止setTimeout</button>
+        <button @click="handleStartRedirect">Redirect</button>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { getRedirect } from '@/api/api'
+import { getNumber, getRedirect } from '@/api/api'
 import { useGlobalContext } from '@/context'
 import { mySetInterval } from '@/utils'
 import { ElMessage } from 'element-plus'
-import { ref, useTemplateRef, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 
 const count = ref<number>(1)
 
@@ -35,12 +37,20 @@ watch(
 
 const stopFunc = ref()
 const handleStartTimeout = () => {
-    const stop = mySetInterval(() => {
-        console.log('timeout: ', count.value++)
-    }, 2000)
+    const stop = mySetInterval(async () => {
+        // console.log('timeout: ', count.value++)
+        let res = await getNumber({})
+        if (res.number) {
+            console.log('res: ', res.number)
+        }
+    }, 3000)
 
     stopFunc.value = stop
 }
+
+onUnmounted(() => {
+    stopFunc.value && stopFunc.value()
+})
 const handleStopTimeout = () => {
     typeof stopFunc.value === 'function' && stopFunc.value()
 }
@@ -49,10 +59,6 @@ const handleStartRedirect = async () => {
     if (res) {
         console.log('res: ', res)
     }
-}
-const templateRef = useTemplateRef('buttonRef')
-const getRef = () => {
-    console.log(templateRef.value)
 }
 </script>
 

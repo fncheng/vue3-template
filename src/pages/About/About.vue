@@ -28,7 +28,15 @@
                     </template>
                 </Await>
             </Suspense>
-            <div>
+            <Suspense>
+                <template #fallback><CustomLoading /></template>
+                <Await :resolve="pieData">
+                    <template #default="slotProps">
+                        <PieChart :data="slotProps.data" />
+                    </template>
+                </Await>
+            </Suspense>
+            <!-- <div>
                 <button @click="isShowAge = !isShowAge">isShowAge</button>
             </div>
 
@@ -39,7 +47,7 @@
                     v-bind:prop="item.name"
                     v-bind:label="item.label"
                 ></ElTableColumn>
-            </ElTable>
+            </ElTable> -->
         </section>
     </main>
 </template>
@@ -50,6 +58,7 @@ import { ElTable, ElTableColumn } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { loadWithDelay } from '@/router'
 import CustomLoading from '@/components/Loading.vue'
+import PieChart from './PieChart.vue'
 
 const Await: (typeof import('@/components/Await.vue'))['default'] = defineAsyncComponent(() =>
     loadWithDelay(import('@/components/Await.vue'), 0)
@@ -60,6 +69,7 @@ declare module 'vue-router' {
         number: Promise<number>
         name: Promise<string>
         abortController: AbortController
+        pieData: Promise<any>
     }
 }
 
@@ -68,6 +78,7 @@ const route = useRoute()
 
 const number = ref(route.meta.number)
 const name = ref(route.meta.name)
+const pieData = ref(route.meta.pieData)
 
 const abortController = route.meta.abortController
 
