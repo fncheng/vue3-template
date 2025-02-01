@@ -1,12 +1,14 @@
 <template>
-    <main class="flex flex-1 flex-col">
+    <main class="flex flex-col flex-1">
         <h3>Let's loading some data</h3>
-        <section class="grid grid-cols-4">
+        <section class="flex flex-1">
             <Suspense>
-                <template #fallback>Please wait...</template>
+                <template #fallback><CustomLoading /> </template>
                 <Await :resolve="number">
                     <template #default="slotProps">
-                        <div :style="{ color: 'red' }">Number: {{ slotProps.data }}</div>
+                        <div :style="{ color: 'red' }">
+                            <h3>Number: {{ slotProps.data }}</h3>
+                        </div>
                     </template>
                     <template #error>
                         <div>Error</div>
@@ -14,10 +16,12 @@
                 </Await>
             </Suspense>
             <Suspense>
-                <template #fallback>Please wait...</template>
+                <template #fallback><CustomLoading /></template>
                 <Await :resolve="name">
                     <template #default="slotProps">
-                        <div :style="{ color: 'red' }">Name: {{ slotProps.data }}</div>
+                        <div :style="{ color: 'red' }">
+                            <h3>Name: {{ slotProps.data }}</h3>
+                        </div>
                     </template>
                     <template #error>
                         <div>Error</div>
@@ -44,9 +48,11 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, onUpdated, ref } from 'vue'
 import { ElTable, ElTableColumn } from 'element-plus'
 import { useRoute } from 'vue-router'
+import { loadWithDelay } from '@/router'
+import CustomLoading from '@/components/Loading.vue'
 
-const Await: (typeof import('@/components/Await.vue'))['default'] = defineAsyncComponent(
-    () => import('@/components/Await.vue')
+const Await: (typeof import('@/components/Await.vue'))['default'] = defineAsyncComponent(() =>
+    loadWithDelay(import('@/components/Await.vue'), 0)
 )
 
 declare module 'vue-router' {

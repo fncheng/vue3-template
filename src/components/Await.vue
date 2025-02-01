@@ -14,14 +14,10 @@ defineSlots<{ default: (props: { data: any }) => any; error: () => any }>()
 const data = ref(null)
 const error = ref<boolean>(false)
 
-const init = async () => {
-    try {
-        data.value = await props.resolve
-    } catch (e) {
+await props.resolve
+    .then((res) => (data.value = res))
+    .catch((e) => {
         console.error(e)
         error.value = true
-    }
-}
-
-init()
+    })
 </script>
