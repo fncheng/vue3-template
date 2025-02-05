@@ -7,7 +7,7 @@
 
         <div class="h-[1000px]">占位</div>
 
-        <ImageLoad src="https://picsum.photos/1000/2000"></ImageLoad>
+        <NewImage src="https://picsum.photos/1000/2000"></NewImage>
         <img src="https://picsum.photos/1000/2000" loading="lazy" />
         <!-- <div v-lazy-load> -->
         <img data-src="https://picsum.photos/1000/2000" v-lazy-load-img />
@@ -16,36 +16,14 @@
 </template>
 
 <script setup lang="ts">
+import NewImage from '@/components/NewImage.vue'
 import { ref } from 'vue'
-import ImageLoad from './ImageLoad.vue'
 
 defineOptions({ name: 'BigImgPreload' })
 
-const imgSrc = ref('')
-const imgRef = ref<HTMLImageElement>()
 const imageLoaded = ref<boolean>(false)
-
-// const preloadImage = () => {
-//     const img = new Image()
-//     img.src = 'https://picsum.photos/2000/3000'
-//     img.onload = () => {
-//         imgSrc.value = img.src
-//         console.log('图片2预加载完成')
-//         imageLoaded.value = true
-//     }
-// }
 
 const showImage = () => {
     imageLoaded.value = !imageLoaded.value
-}
-
-// preloadImage()
-
-const handleImageLoad = () => {
-    console.log('图片加载成功')
-}
-
-const handleImageError = () => {
-    console.error('图片加载失败')
 }
 </script>
