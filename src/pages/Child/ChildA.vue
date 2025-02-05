@@ -9,6 +9,10 @@
         <button @click="handleStopTimeout">停止setTimeout</button>
         <button @click="handleStartRedirect">Redirect</button>
     </div>
+    <div>
+        <button @click="buttonStartEvent">发起一个事件</button>
+        <button @click="buttonStopEvent">停止事件</button>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +63,31 @@ const handleStartRedirect = async () => {
     if (res) {
         console.log('res: ', res)
     }
+}
+
+const listener = () => {
+    console.log('click')
+}
+let abortController: AbortController
+
+const buttonStartEvent = () => {
+    if (abortController) {
+        abortController.abort('重复点击，取消事件')
+    }
+    abortController = new AbortController()
+    const signal = abortController.signal
+    signal.addEventListener('abort', () => {
+        if (signal.reason instanceof Error) {
+            console.error('Aborted with error:', signal.reason.message)
+        } else {
+            console.log('Aborted:', signal.reason)
+        }
+    })
+    window.addEventListener('click', listener, { signal })
+}
+const buttonStopEvent = () => {
+    abortController.abort('取消事件')
+    // window.removeEventListener('click', listener)
 }
 </script>
 
