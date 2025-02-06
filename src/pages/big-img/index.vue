@@ -7,11 +7,16 @@
 
         <div class="h-[1000px]">占位</div>
 
-        <NewImage src="https://picsum.photos/1000/2000"></NewImage>
-        <img src="https://picsum.photos/1000/2000" loading="lazy" />
-        <!-- <div v-lazy-load> -->
-        <img data-src="https://picsum.photos/1000/2000" v-lazy-load-img />
-        <!-- </div> -->
+        <img
+            data-src="https://picsum.photos/200/200"
+            @load="console.log('图片加载完成')"
+            v-lazy-load-img
+        />
+
+        <NewImage src="https://picsum.photos/800/600" width="500" height="400"></NewImage>
+        <NewImage src="https://picsum.photos/500/400" width="500" height="400"></NewImage>
+        <NewImage src="https://picsum.photos/500/500" width="500" height="400"></NewImage>
+        <NewImage src="https://picsum.photos/1000/2000" width="1000" height="1000"></NewImage>
     </div>
 </template>
 
