@@ -9,9 +9,13 @@ import router from './router'
 import myPlugin, { ourPlugin } from './plugins'
 import directives from './directives'
 import { createPinia } from 'pinia'
+import 'virtual:svg-icons-register'
+import SvgIcon from './components/SvgIcon/SvgIcon.vue'
 
 const app = createApp(App)
 const pinia = createPinia()
+
+app.component('SvgIcon', SvgIcon)
 
 Object.keys(directives).forEach((key) => {
     app.directive(key, directives[key as keyof typeof directives])

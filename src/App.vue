@@ -28,6 +28,7 @@ ProvideGlobalContext()
             <RouterLink to="/test">Test</RouterLink>
             <RouterLink to="/context">Context</RouterLink>
             <RouterLink to="/child-a">child-a</RouterLink>
+            <RouterLink to="/child-a/vapor">vapor</RouterLink>
             <RouterLink to="/child-b">child-b</RouterLink>
             <RouterLink to="/pdf">pdf</RouterLink>
             <RouterLink to="/file-upload">file-upload</RouterLink>
