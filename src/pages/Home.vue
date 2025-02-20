@@ -1,35 +1,18 @@
 <script setup lang="ts">
 import { ElDrawer } from 'element-plus'
-import { defineAsyncComponent, ref } from 'vue'
+import { ref } from 'vue'
+import bgImg from '@/assets/images/banner1.png'
 
 defineOptions({ name: 'HomeView' })
 
 const visible = ref(false)
-const id = ref<string>('10086')
-
-const obj = ref({
-    name: 'zs',
-    age: 20,
-    nest: {
-        number: 100
-    }
-})
-
-const AsyncComponent1 = defineAsyncComponent(() => import('@/components/AsyncComponent1.vue'))
-const AsyncComponent2 = defineAsyncComponent(() => import('@/components/AsyncComponent2.vue'))
-const AsyncComponent3 = defineAsyncComponent(() => import('@/components/AsyncComponent3.vue'))
-
-const handleChange = (val: string) => {
-    console.log('father change', val)
-}
 </script>
 
 <template>
+    <img :src="bgImg" alt="" :class="$style['bg-img']" />
     <main>
         <h1>Home</h1>
         <button @click="visible = !visible">show drawer</button>
-        <button @click="id++">set id</button>
-        <button @click="obj.age = 30">set obj age</button>
         <ElDrawer
             :model-value="visible"
             @update:model-value="visible = $event"
@@ -39,17 +22,27 @@ const handleChange = (val: string) => {
         >
             <span>I'm the content</span>
         </ElDrawer>
-        <div>
-            Home age: <span>{{ obj.age }}</span> Home number:
-            <span>{{ obj.nest.number }}</span> Home id: <span>{{ id }}</span>
-        </div>
-        <div>
-            Component2
-            <AsyncComponent2 v-model:obj="obj" v-model:id="id" />
-        </div>
-        <div>
-            Component3
-            <AsyncComponent3 v-model:object="obj" v-model:id="id" />
-        </div>
     </main>
 </template>
+
+<style lang="css" module>
+.bg-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -100;
+    transform: scaleX(-1);
+}
+</style>
+
+<style lang="css">
+/* body {
+    height: 100vh;
+    background-image: url('../assets/images/banner1.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+} */
+</style>

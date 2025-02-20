@@ -1,0 +1,8 @@
+{
+  "choices": [{ "index": 0, "delta": { "content": "大雨", "type": "thinking" } }],
+  "model": "",
+  "chunk_token_usage": 1,
+  "created": 1739440253,
+  "message_id": 5,
+  "parent_id": 4
+}

@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // import AutoImport from 'unplugin-auto-import/vite'
@@ -12,7 +12,9 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { resolve } from 'node:path'
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd())
+    console.log('VITE_APP_ROUTER_BASE', env.VITE_APP_ROUTER_BASE)
     return {
         base: (process.env as any).__POWERED_BY_QIANKUN__ ? '/app-vue2/' : '/vue-app/',
         // build: {

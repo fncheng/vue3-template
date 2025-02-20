@@ -72,3 +72,13 @@ export const mySetInterval = (
     } else timeoutId = setTimeout(excute, ms)
     return () => clearTimeout(timeoutId)
 }
+
+/**
+ * 批量导入图片
+ * @param images
+ * @returns
+ */
+export async function AutoloadImages(images: Record<string, () => Promise<any>>) {
+    const imagesModules = await Promise.all(Object.keys(images).map((key: string) => images[key]()))
+    return imagesModules.map((module) => module.default)
+}

@@ -12,6 +12,8 @@ import { createPinia } from 'pinia'
 import 'virtual:svg-icons-register'
 import SvgIcon from './components/SvgIcon/SvgIcon.vue'
 
+console.group('VITE_APP_ROUTER_BASE', import.meta.env.VITE_APP_ROUTER_BASE)
+
 const app = createApp(App)
 const pinia = createPinia()
 

@@ -90,7 +90,7 @@ const routes: RouteConfig[] = [
             },
             {
                 path: '/child-b',
-                component: () => import('@/pages/Child/ChildA.vue')
+                component: () => import('@/pages/Child/ChildB.vue')
             },
             {
                 path: '/context',
