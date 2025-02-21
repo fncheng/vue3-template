@@ -1,5 +1,5 @@
 import { debounce } from 'lodash-es'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 
 /**
  * @key 列数
@@ -33,17 +33,20 @@ export const useWindowWidth = () => {
 export const useDefaultSpanConfig = () => {
     const windowWidth = useWindowWidth()
 
-    if (windowWidth.value > 1920) {
-        return spanCol[6]
-    }
-    if (windowWidth.value > 1440) {
-        return spanCol[4]
-    }
-    if (windowWidth.value > 1024) {
-        return spanCol[3]
-    } else {
-        return spanCol[2]
-    }
+    const spaonConfig = computed(() => {
+        if (windowWidth.value > 1920) {
+            return spanCol[6]
+        }
+        if (windowWidth.value > 1440) {
+            return spanCol[4]
+        }
+        if (windowWidth.value > 1024) {
+            return spanCol[3]
+        } else {
+            return spanCol[2]
+        }
+    })
+    return spaonConfig
 }
 
 export default useDefaultSpanConfig

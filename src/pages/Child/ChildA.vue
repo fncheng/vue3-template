@@ -13,6 +13,11 @@
         <button @click="buttonStartEvent">发起一个事件</button>
         <button @click="buttonStopEvent">停止事件</button>
     </div>
+    <div>
+        <SvgIcon name="deepseek" />
+        <SvgIcon name="male" />
+        <svg-icon :name="'female'" />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -65,6 +70,7 @@ const handleStartRedirect = async () => {
     }
 }
 
+//#region AbortController取消事件处理函数
 const listener = () => {
     console.log('click')
 }
@@ -89,6 +95,7 @@ const buttonStopEvent = () => {
     abortController.abort('取消事件')
     // window.removeEventListener('click', listener)
 }
+//#endregion
 </script>
 
 <style lang="scss" module>

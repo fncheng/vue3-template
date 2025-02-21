@@ -2,7 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.vue'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        '3xl': '1920px',
+      }
+    },
   },
   plugins: [],
   corePlugins: {

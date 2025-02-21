@@ -2,7 +2,8 @@ import { DefineComponent } from 'vue'
 
 declare module '@vue/runtime-core' {
     interface GlobalComponents {
-        AsComponent: typeof import('../components/AsyncComponent.vue')['default']
+        Await: (typeof import('../components/Await.vue'))['default']
+        SvgIcon: (typeof import('../components/SvgIcon/SvgIcon.vue'))['default']
         AbComponent: DefineComponent<{ number: string }>
     }
 }
