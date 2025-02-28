@@ -66,15 +66,6 @@ const routes: RouteConfig[] = [
                 path: 'sse',
                 component: () => import('@/pages/sse/index.vue')
             },
-            // {
-            //   path: 'create-element',
-            //   componentPath: 'CreateElement/index',
-            //   // meta: { requireAuth: true }
-            // },
-            // {
-            //   path: '/mount-blade',
-            //   componentPath: 'MountBlade/index'
-            // },
             {
                 path: 'child-a',
                 children: [
@@ -124,6 +115,18 @@ const routes: RouteConfig[] = [
             {
                 path: 'big-img',
                 component: () => import('@/pages/big-img/index.vue')
+            },
+            {
+                path: 'virtual-scroll',
+                component: () => import('@/pages/virtual-scroll/index.vue')
+            },
+            {
+                path: 'ckeditor',
+                component: () => import('@/pages/CkEditor/index.vue')
+            },
+            {
+                path: 'katex',
+                component: () => import('@/pages/Katex/index.vue')
             }
         ]
     }

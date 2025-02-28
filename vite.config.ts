@@ -10,6 +10,7 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { resolve } from 'node:path'
+import Pages from 'vite-plugin-pages'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -47,6 +48,9 @@ export default defineConfig(({ mode }) => {
         plugins: [
             vue(),
             vueJsx(),
+            Pages({
+                dirs: 'src/app/pages',
+            }),
             // AutoImport({
             //     resolvers: [ElementPlusResolver()]
             // }),
