@@ -20,18 +20,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-defineOptions({ name: 'NewImage' })
-const {
-    src,
-    mode = 'lazy',
-    width,
-    height
-} = defineProps<{
+interface ImageProps {
     src: string
     mode?: 'lazy' | 'preload'
-    width: number | `${number}` | undefined
-    height?: number | `${number}` | undefined
-}>()
+    width?: number | string
+    height?: number | string
+}
+
+defineOptions({ name: 'NewImage' })
+const { src, mode = 'lazy', width, height } = defineProps<ImageProps>()
 
 const error = ref<boolean>(false)
 const loading = ref<boolean>(true)

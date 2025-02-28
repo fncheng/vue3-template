@@ -39,6 +39,8 @@ ProvideGlobalContext()
             <RouterLink to="/editor">editor</RouterLink>
             <RouterLink to="/canvas">canvas</RouterLink>
             <RouterLink to="/big-img">big-img</RouterLink>
+            <RouterLink to="/virtual-scroll">virtual-scroll</RouterLink>
+            <RouterLink to="/ckeditor">ckeditor</RouterLink>
         </ul>
         <Suspense>
             <template #fallback>Loading number...</template>
