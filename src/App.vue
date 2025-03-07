@@ -65,7 +65,7 @@ ProvideGlobalContext()
         <Suspense>
             <template #fallback>Loading...</template>
             <template #default>
-                <main class="flex flex-1">
+                <main class="h-full w-full">
                     <RouterView :key="$route.fullPath" />
                 </main>
             </template>

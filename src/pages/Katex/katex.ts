@@ -6,6 +6,8 @@ export const katexStr = `**欧拉公式**（Euler's Formula）是复分析和复
 // 渲染块级数学公式
 export const renderBlockMath = (content: string) => {
     return content.replace(/\\\[((.|\n)+?)\\\]/g, (match, formula) => {
+        // console.log('match: ', match);
+        // console.log('formula: ', formula);
         try {
             return katex.renderToString(formula, {
                 displayMode: true,
@@ -22,6 +24,8 @@ export const renderBlockMath = (content: string) => {
 // 渲染行内数学公式
 export const renderInlineMath = (content: string) => {
     return content.replace(/\\\((.+?)\\\)/g, (match, formula) => {
+        // console.log('match2: ', match);
+        // console.log('formula2: ', formula);
         try {
             const str = katex.renderToString(formula, {
                 displayMode: false,

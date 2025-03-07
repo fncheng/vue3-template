@@ -121,10 +121,6 @@ const routes: RouteConfig[] = [
                 component: () => import('@/pages/virtual-scroll/index.vue')
             },
             {
-                path: 'ckeditor',
-                component: () => import('@/pages/CkEditor/index.vue')
-            },
-            {
                 path: 'katex',
                 component: () => import('@/pages/Katex/index.vue')
             }
