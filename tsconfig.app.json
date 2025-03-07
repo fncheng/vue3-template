@@ -24,6 +24,7 @@
       "@vue/runtime-core": [
         "./node_modules/.pnpm/@vue+runtime-core@3.5.3/node_modules/@vue/runtime-core/dist/runtime-core.d.ts"
       ]
-    }
+    },
+    "types": ["@vueuse/core"]
   }
 }

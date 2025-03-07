@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
             vue(),
             vueJsx(),
             Pages({
-                dirs: 'src/app/pages',
+                dirs: 'src/app/pages'
             }),
             // AutoImport({
             //     resolvers: [ElementPlusResolver()]

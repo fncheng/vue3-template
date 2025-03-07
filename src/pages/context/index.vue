@@ -7,6 +7,8 @@ const { state } = useGlobalContext()
 </script>
 
 <template>
-    <ChildA />
-    <ChildB v-memo="[state.name]" />
+    <div class="grid grid-cols-2 gap-x-4">
+        <ChildA />
+        <ChildB v-memo="[state.name]" />
+    </div>
 </template>

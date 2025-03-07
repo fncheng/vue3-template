@@ -2,6 +2,7 @@
     <h3>ChildA</h3>
     <button @click="incrementAge">{{ state.age }}</button>
     <div>
+        <button @click="userStore.setName('childA')">childA</button>
         <span @click="userStore.state.name += '1'">{{ userStore.state.name }}</span>
     </div>
 </template>
