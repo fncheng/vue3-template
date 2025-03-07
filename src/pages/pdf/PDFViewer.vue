@@ -15,10 +15,11 @@ import { ElButton } from 'element-plus'
 import { ref, watch } from 'vue'
 import * as pdfjsLib from 'pdfjs-dist'
 import 'pdfjs-dist/web/pdf_viewer.css'
-// import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?worker';
 
-// pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new pdfWorker());
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.mjs'
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.mjs',
+    import.meta.url
+).toString()
 
 type PDFViewerProps = {
     fileUrl: string
