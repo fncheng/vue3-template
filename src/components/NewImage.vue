@@ -10,14 +10,26 @@
     <img
         v-if="mode === 'lazy'"
         ref="imgRef"
-        :width="width"
-        :height="height"
+        :width="isImageLoadingOrError ? 0 : width"
+        :height="isImageLoadingOrError ? 0 : height"
         :data-src="src"
-        v-lazy-load-img
-        @load="loading = false"
+        :src="src"
+        :alt="alt"
+        loading="lazy"
+        @load="onLoad"
+        @error="onError"
     />
-    <template v-else-if="mode === 'preload' && showImage">
-        <img :width="width" :height="height" ref="imgRef" :src="imgSrc" />
+    <template v-else-if="mode === 'preload'">
+        <img
+            v-if="showImage"
+            :width="width"
+            :height="height"
+            ref="imgRef"
+            :src="imgSrc"
+            :alt="alt"
+            @load="onLoad"
+            @error="onError"
+        />
     </template>
     <div
         v-if="loading"
@@ -32,17 +44,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 interface ImageProps {
     src: string
     mode?: 'lazy' | 'preload'
     width?: number | string
     height?: number | string
+    alt?: string
 }
 
 defineOptions({ name: 'NewImage' })
-const { src, mode = 'lazy', width, height } = defineProps<ImageProps>()
+const { src, mode = 'lazy', width, height, alt } = defineProps<ImageProps>()
 
 const error = ref<boolean>(false)
 const loading = ref<boolean>(true)
@@ -50,6 +63,22 @@ const loading = ref<boolean>(true)
 const imgSrc = ref('')
 const imgRef = ref<HTMLImageElement>()
 const showImage = ref<boolean>(false)
+
+const isImageLoadingOrError = computed(() => {
+    return error.value || loading.value
+})
+
+const onLoad = () => {
+    loading.value = false
+    error.value = false
+    console.log(`图片加载成功: ${src}`)
+}
+
+const onError = () => {
+    loading.value = false
+    error.value = true
+    console.error(`图片加载失败: ${src}`)
+}
 
 const preload = () => {
     const img = new Image()
@@ -60,23 +89,20 @@ const preload = () => {
         showImage.value = true
     }
     img.onerror = () => {
+        loading.value = false
         error.value = true
-        console.error('图片加载失败')
+        console.error('图片预加载失败')
     }
 }
+
 mode === 'preload' && preload()
 
 const retry = () => {
     error.value = false
     showImage.value = false
+    loading.value = true
     preload()
 }
-
-onMounted(() => {
-    if (mode === 'preload') {
-        preload()
-    }
-})
 </script>
 
 <style lang="css" scoped>
