@@ -15,6 +15,7 @@
         :data-src="src"
         :src="src"
         :alt="alt"
+        :class="[objectFit ? `object-fit-${objectFit}` : '', imgClass]"
         loading="lazy"
         @load="onLoad"
         @error="onError"
@@ -27,6 +28,7 @@
             ref="imgRef"
             :src="imgSrc"
             :alt="alt"
+            :class="[objectFit ? `object-fit-${objectFit}` : '', imgClass]"
             @load="onLoad"
             @error="onError"
         />
@@ -52,10 +54,12 @@ interface ImageProps {
     width?: number | string
     height?: number | string
     alt?: string
+    objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down'
+    imgClass?: string
 }
 
-defineOptions({ name: 'NewImage' })
-const { src, mode = 'lazy', width, height, alt } = defineProps<ImageProps>()
+defineOptions({ name: 'NewImage', inheritAttrs: false })
+const { src, mode = 'lazy', width, height, alt, imgClass } = defineProps<ImageProps>()
 
 const error = ref<boolean>(false)
 const loading = ref<boolean>(true)
@@ -126,5 +130,42 @@ const retry = () => {
     align-items: center;
     font-size: 14px;
     color: #e53935;
+    cursor: pointer;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 对象适应模式类 */
+.object-fit-cover {
+    object-fit: cover;
+}
+
+.object-fit-contain {
+    object-fit: contain;
+}
+
+.object-fit-fill {
+    object-fit: fill;
+}
+
+.object-fit-none {
+    object-fit: none;
+}
+
+.object-fit-scale-down {
+    object-fit: scale-down;
 }
 </style>
