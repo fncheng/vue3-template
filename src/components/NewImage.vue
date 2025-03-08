@@ -1,6 +1,11 @@
 <template>
-    <div :style="{ width: `${width}px` }" v-if="error" @click="retry" class="error-placeholder">
-        <slot name="error">Image failed to load.Click to retry.</slot>
+    <div
+        :style="{ width: `${width}px`, height: `${height}px` }"
+        v-if="error"
+        @click="retry"
+        class="error-placeholder"
+    >
+        <slot name="error">图片加载失败，点击重试</slot>
     </div>
     <img
         v-if="mode === 'lazy'"
@@ -14,11 +19,20 @@
     <template v-else-if="mode === 'preload' && showImage">
         <img :width="width" :height="height" ref="imgRef" :src="imgSrc" />
     </template>
-    <slot v-if="loading" name="loading" class="loading-placeholder">Image Loading...</slot>
+    <div
+        v-if="loading"
+        class="loading-placeholder"
+        :style="{
+            width: `${width}px`,
+            height: `${height}px`
+        }"
+    >
+        <slot name="loading">图片加载中...</slot>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 interface ImageProps {
     src: string
@@ -57,6 +71,12 @@ const retry = () => {
     showImage.value = false
     preload()
 }
+
+onMounted(() => {
+    if (mode === 'preload') {
+        preload()
+    }
+})
 </script>
 
 <style lang="css" scoped>
