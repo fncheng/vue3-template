@@ -88,9 +88,21 @@ const preload = () => {
     const img = new Image()
     img.src = src
     img.onload = () => {
-        imgSrc.value = img.src
-        console.log('图片预加载完成')
-        showImage.value = true
+        // 使用decode API优化图片加载
+        img.decode()
+            .then(() => {
+                imgSrc.value = img.src
+                showImage.value = true
+                console.log('图片解码成功')
+            })
+            .catch(() => {
+                error.value = true
+                loading.value = false
+                console.error('图片解码失败')
+            })
+            // imgSrc.value = img.src
+            // console.log('图片预加载完成')
+            // showImage.value = true
     }
     img.onerror = () => {
         loading.value = false
