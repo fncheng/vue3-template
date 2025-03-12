@@ -24,41 +24,6 @@
                 @timeupdate="onTimeUpdate"
             />
         </div>
-
-        <div class="controls-container">
-            <div class="video-info">
-                <h3>{{ currentVideo.title }}</h3>
-                <p>{{ currentVideo.description }}</p>
-            </div>
-
-            <div class="custom-controls">
-                <button @click="playVideo">播放</button>
-                <button @click="pauseVideo">暂停</button>
-                <button @click="resetVideo">重置</button>
-                <button @click="toggleMute">{{ isMuted ? '取消静音' : '静音' }}</button>
-
-                <div class="volume-control">
-                    <span>音量:</span>
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        v-model="volume"
-                        @input="changeVolume"
-                    />
-                </div>
-
-                <div class="video-selector">
-                    <span>选择视频:</span>
-                    <select v-model="selectedVideoIndex" @change="changeVideo">
-                        <option v-for="(video, index) in videoList" :key="index" :value="index">
-                            {{ video.title }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -71,17 +36,6 @@ defineOptions({
     name: 'VideoPlayerPage'
 })
 
-// 定义VideoPlayer组件实例的类型
-// interface VideoPlayerInstance {
-//   player: () => any;
-//   play: () => void;
-//   pause: () => void;
-//   reset: () => void;
-//   seek: (time: number) => void;
-//   setVolume: (volume: number) => void;
-//   toggleMute: () => void;
-// }
-
 // 视频播放器引用
 const videoPlayerRef = ref<VideoPlayerInstance | null>(null)
 
@@ -92,18 +46,6 @@ const videoList = ref([
         description: '这是第一个示例视频',
         src: 'https://vjs.zencdn.net/v/oceans.mp4',
         poster: 'https://vjs.zencdn.net/v/oceans.png'
-    },
-    {
-        title: '示例视频 2',
-        description: '这是第二个示例视频',
-        src: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
-        poster: 'https://media.w3.org/2010/05/sintel/poster.png'
-    },
-    {
-        title: '示例视频 3',
-        description: '这是第三个示例视频',
-        src: 'https://media.w3.org/2010/05/bunny/trailer.mp4',
-        poster: 'https://media.w3.org/2010/05/bunny/poster.png'
     }
 ])
 
@@ -115,8 +57,6 @@ const currentVideo = computed(() => videoList.value[selectedVideoIndex.value])
 
 // 播放器状态
 const isPlaying = ref(false)
-const isMuted = ref(false)
-const volume = ref(1)
 const currentTime = ref(0)
 
 // 播放器就绪事件
@@ -145,40 +85,6 @@ const onEnded = (player: any) => {
 // 时间更新事件
 const onTimeUpdate = (time: number) => {
     currentTime.value = time
-}
-
-// 播放视频
-const playVideo = () => {
-    videoPlayerRef.value?.play()
-}
-
-// 暂停视频
-const pauseVideo = () => {
-    videoPlayerRef.value?.pause()
-}
-
-// 重置视频
-const resetVideo = () => {
-    videoPlayerRef.value?.reset()
-}
-
-// 切换静音
-const toggleMute = () => {
-    videoPlayerRef.value?.toggleMute()
-    isMuted.value = !isMuted.value
-}
-
-// 改变音量
-const changeVolume = () => {
-    videoPlayerRef.value?.setVolume(volume.value)
-}
-
-// 切换视频
-const changeVideo = () => {
-    // 视频切换后自动播放
-    setTimeout(() => {
-        playVideo()
-    }, 100)
 }
 
 onMounted(() => {

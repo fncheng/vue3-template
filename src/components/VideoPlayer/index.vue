@@ -12,7 +12,7 @@ import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import type { VideoPlayerProps } from './types'
-import type Player from 'video.js/dist/types/player';
+import type Player from 'video.js/dist/types/player'
 
 const props = withDefaults(defineProps<VideoPlayerProps>(), {
     src: '',
@@ -59,15 +59,6 @@ const initializePlayer = () => {
     player = videojs(videoContainer.value, videoOptions, function onPlayerReady() {
         emit('ready', player)
     })
-    console.log('player: ', player);
-
-    // 添加事件监听
-    player.on('play', () => emit('play', player))
-    player.on('pause', () => emit('pause', player))
-    player.on('ended', () => emit('ended', player))
-    player.on('timeupdate', () => emit('timeupdate', player?.currentTime()))
-    player.on('volumechange', () => emit('volumechange', player?.volume()))
-    player.on('error', (error: any) => emit('error', error))
 }
 
 /**
@@ -158,23 +149,12 @@ defineExpose({
     width: 100%;
     height: 100%;
     position: relative;
+    min-height: 300px;
 }
 
 .video-js-container {
     width: 100%;
     height: 100%;
-}
-
-:deep(.video-js) {
-    width: 100%;
-    height: 100%;
-    min-height: 300px;
-}
-
-:deep(.vjs-big-play-button) {
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
 }
 
 /* 确保控制栏样式正确 */
