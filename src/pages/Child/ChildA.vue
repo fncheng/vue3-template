@@ -46,13 +46,17 @@ watch(
 
 const stopFunc = ref()
 const handleStartTimeout = () => {
-    const stop = mySetInterval(async () => {
-        // console.log('timeout: ', count.value++)
-        let res = await getNumber({})
-        if (res.number) {
-            console.log('res: ', res.number)
-        }
-    }, 3000)
+    const stop = mySetInterval(
+        async () => {
+            // console.log('timeout: ', count.value++)
+            let res = await getNumber({})
+            if (res.number) {
+                console.log('res: ', res.number)
+            }
+        },
+        3000,
+        { immediate: true }
+    )
 
     stopFunc.value = stop
 }
