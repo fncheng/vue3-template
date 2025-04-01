@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { marked } from 'marked'
-import { renderBlockMath, renderInlineMath } from './katex';
+import { renderBlockMath, renderInlineMath } from '../utils/katex';
 
 const props = defineProps<{
     content: string

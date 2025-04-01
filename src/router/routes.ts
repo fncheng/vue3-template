@@ -8,7 +8,7 @@ const routes: RouteConfig[] = [
         children: [
             {
                 path: '',
-                redirect: '/home'
+                redirect: 'home'
             },
             {
                 path: 'home',
@@ -93,6 +93,7 @@ const routes: RouteConfig[] = [
             },
             {
                 path: 'el',
+                redirect: 'el/form',
                 children: [
                     {
                         path: 'form',
@@ -119,10 +120,6 @@ const routes: RouteConfig[] = [
             {
                 path: 'virtual-scroll',
                 component: () => import('@/pages/virtual-scroll/index.vue')
-            },
-            {
-                path: 'katex',
-                component: () => import('@/pages/Katex/index.vue')
             }
         ]
     }

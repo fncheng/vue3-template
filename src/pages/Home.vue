@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ElDrawer } from 'element-plus'
 import { ref } from 'vue'
-import bgImg from '@/assets/images/banner1.png'
+import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 
 defineOptions({ name: 'HomeView' })
 
@@ -9,8 +9,10 @@ const visible = ref(false)
 </script>
 
 <template>
-    <img :src="bgImg" alt="" :class="$style['bg-img']" />
     <main>
+        <!-- <img src="/images/baogang.png" alt="">
+        <img :src="img" alt=""> -->
+        <SvgIcon name="logo" :size="120" />
         <h1>Home</h1>
         <button @click="visible = !visible">show drawer</button>
         <ElDrawer

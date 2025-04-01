@@ -1,6 +1,6 @@
 import { type RouteRecordRaw, createWebHistory, createRouter } from 'vue-router'
 import routes from './routes'
-import addonRoutes from 'virtual:generated-pages'
+import addonRoutes from '~pages'
 
 const modules = import.meta.glob('../pages/**/*.vue')
 
@@ -72,6 +72,9 @@ const router = createRouter({
 addonRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route))
 
 router.beforeEach((to, from, next) => {
+    // console.group('from: ', from)
+    // console.group('to: ', to)
+    // console.groupEnd()
     // console.log('to: ', to, from);
     // if (to.path === '/home') {
     //   alert('home');
