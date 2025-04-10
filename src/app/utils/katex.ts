@@ -4,6 +4,7 @@ import katex from 'katex'
 // 渲染块级数学公式
 export const renderBlockMath = (content: string) => {
     return content.replace(/\\\[((.|\n)+?)\\\]/g, (match, formula) => {
+        // debugger
         // console.log('match: ', match);
         // console.log('formula: ', formula);
         try {

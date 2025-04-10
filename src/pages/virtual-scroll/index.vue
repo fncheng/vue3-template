@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { RecycleScroller } from 'vue-virtual-scroller'
 
 const showCount = ref(5)
 

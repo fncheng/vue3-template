@@ -14,7 +14,6 @@ import SvgIcon from './components/SvgIcon/SvgIcon.vue'
 import { RecycleScroller, DynamicScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import piniaPluginPersist from 'pinia-plugin-persistedstate'
-console.group('VITE_APP_ROUTER_BASE', import.meta.env.VITE_APP_ROUTER_BASE)
 
 // const app = createApp(App)
 const pinia = createPinia()

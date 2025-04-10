@@ -1,5 +1,5 @@
 <template>
-    <v-md-editor v-model="content" height="400px"></v-md-editor>
+    <v-md-editor v-model="content" height="100%"></v-md-editor>
 </template>
 
 <script setup lang="ts">
@@ -9,7 +9,7 @@ import '@kangc/v-md-editor/lib/style/base-editor.css'
 // vuepress主题
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js'
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css'
-import { katexStr, renderBlockMath, renderInlineMath } from '@/pages/Katex/katex'
+import { katexStr, renderBlockMath, renderInlineMath } from '@/app/utils/katex'
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/npm'
 
 VMdEditor.use(vuepressTheme)

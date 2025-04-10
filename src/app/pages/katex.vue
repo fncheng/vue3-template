@@ -1,33 +1,44 @@
 <script setup lang="ts">
-import { ElTabPane, ElTabs, type TabPaneProps, type TabsPaneContext } from 'element-plus'
-import { ref, watch } from 'vue'
+import { ElTabPane, ElTabs, type TabPaneName, type TabPaneProps } from 'element-plus'
+import { onUpdated, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import katexStr from '../utils/katexStr'
+import katexStr1 from '../utils/katexStr1'
 
 const router = useRouter()
 const route = useRoute()
+console.log('route: ', route.path)
 
-const activeName = ref(route.path.split('/')[2] || 'a')
+const activeName = ref<TabPaneName>(route.path.split('/').pop() || 'a')
 const tabs: Partial<TabPaneProps>[] = [
     {
         name: 'a',
-        label: 'v-md-preview函数处理'
+        label: '标签a'
     },
     {
         name: 'b',
-        label: '正则replace'
+        label: '标签b'
     },
     {
         name: 'c',
-        label: '自定义组件'
+        label: '正则replace'
+    },
+    {
+        name: 'd',
+        label: '@vscode/markdown-it-katex'
+    },
+    {
+        name: 'e',
+        label: '标签e'
     }
 ]
 
-const handleTabClick = (tab: TabsPaneContext) => {
-    router.push(`/katex/${tab.paneName}`)
+const handleTabChange = (tab: TabPaneName) => {
+    activeName.value = tab
+    router.push(`/katex/${tab}`)
 }
 
-const content = katexStr
+const content = katexStr1
 
 watch(
     () => activeName.value,
@@ -35,10 +46,14 @@ watch(
         console.log('newVal: ', newVal)
     }
 )
+
+onUpdated(() => {
+    console.log('update')
+})
 </script>
 
 <template>
-    <ElTabs v-model:model-value="activeName" @tab-click="handleTabClick">
+    <ElTabs :model-value="activeName" @tab-change="handleTabChange">
         <ElTabPane v-for="item in tabs" :key="item.name" :label="item.label" :name="item.name">
             <RouterView v-slot="{ Component }">
                 <component :is="Component" :content="content"></component>

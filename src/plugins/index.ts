@@ -2,7 +2,6 @@ import { inject, type App, type ObjectPlugin } from 'vue'
 
 const myPlugin: ObjectPlugin<{ message: string }> = {
     install(app: App, options) {
-        console.log('app: ', app)
         // 不推荐
         app.config.globalProperties.$myPluginMethod = () => {
             console.log('myPluginMethod')
@@ -18,7 +17,6 @@ const myPlugin: ObjectPlugin<{ message: string }> = {
 export const ourPlugin = (options: { message: string }) => {
     return {
         install(app: App) {
-            console.log('app: ', app)
             const ourPluginMethod = () => {
                 console.log('ourPluginMethod', options.message)
             }

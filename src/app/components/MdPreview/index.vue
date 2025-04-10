@@ -8,6 +8,7 @@ import '@kangc/v-md-editor/lib/style/preview.css'
 import githubTheme from '@kangc/v-md-editor/lib/theme/vuepress.js'
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css'
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/npm'
+import markdownItKatex from '@vscode/markdown-it-katex'
 import { computed } from 'vue'
 
 interface MdPreviewProps {
