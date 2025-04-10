@@ -26,6 +26,10 @@ const tabs: Partial<TabPaneProps>[] = [
     {
         name: 'd',
         label: '@vscode/markdown-it-katex'
+    },
+    {
+        name: 'e',
+        label: 'MarkdownPreview'
     }
 ]
 

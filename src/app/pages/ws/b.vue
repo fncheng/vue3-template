@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import MarkdownRender from '@/app/components/MarkdownRender.vue';
+import MarkdownRender from '@/components/MarkdownRender/index.vue';
 
-const props = defineProps<{ content: string }>()
+defineProps<{ content: string }>()
 </script>

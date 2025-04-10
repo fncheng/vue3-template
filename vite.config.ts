@@ -95,6 +95,12 @@ export default defineConfig(({ mode }) => {
                 '/audio/downloadFile': {
                     target: 'http://10.1.200.39:38899',
                     changeOrigin: true
+                },
+                '/ws': {
+                    target: "wss://flames.iflytek.com:2443",
+                    changeOrigin: true,
+                    ws: true,
+                    rewrite: path => path.replace(/^\/ws/, ''),
                 }
             }
         }

@@ -77,17 +77,24 @@ const handleTabClick = (tab: TabsPaneContext) => {
 const content = ref('')
 
 const startWs = () => {
-    const ws = new WebSocket('ws://localhost:8099/agent/skybox/api/v1/chat')
+    const ws = new WebSocket('/ws/agent/skybox/api/v1/chat')
     ws.onopen = () => {
         console.log('start websocket')
         const param = {
-            header: { traceId: '6d503147-9872-4fed-943e-f75d7004f9f0', mode: 0 },
+            header: { traceId: 'd9c9f993-9a0f-42c4-8eaf-3a9188500061', mode: 0 },
             payload: {
-                sessionId: '',
-                message: { text: [{ content_type: 'text', content: '欧拉公式的推导过程' }] }
+                sessionId: 'xzsspark4pzhhgrnz1io0ydgcd5cd9ca',
+                message: {
+                    text: [
+                        {
+                            content_type: 'text',
+                            content: '请给出一些有机化合物的化学反应方程式，并尽量用苯环来表示'
+                        }
+                    ]
+                }
             },
             parameter: {
-                chat: { domain: 'generalv3.5', temperature: 0.5, top_k: 1, contextEnabled: true }
+                chat: { domain: '128K13B-1', temperature: 0.5, top_k: 1, contextEnabled: true }
             }
         }
         console.log('param: ', param)
