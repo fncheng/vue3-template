@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import MdPreview from '@/app/components/MdPreview/index.vue'
+import MdPreview from '@/components/MdPreview/index.vue'
 import { computed } from 'vue';
 const { content } = defineProps<{ content: string }>()
 

@@ -26,10 +26,6 @@ const tabs: Partial<TabPaneProps>[] = [
     {
         name: 'd',
         label: '@vscode/markdown-it-katex'
-    },
-    {
-        name: 'e',
-        label: '标签e'
     }
 ]
 
@@ -42,9 +38,7 @@ const content = katexStr1
 
 watch(
     () => activeName.value,
-    (newVal) => {
-        console.log('newVal: ', newVal)
-    }
+    () => {}
 )
 
 onUpdated(() => {

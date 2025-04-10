@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import 'katex/dist/katex.min.css'
-import KatexComponent from '../../components/KatexComponent.vue'
+import KatexComponent from '@/components/KatexComponent.vue'
 
 const { content } = defineProps<{ content: string }>()
 </script>

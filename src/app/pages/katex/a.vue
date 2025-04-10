@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import MdPreview from '@/app/components/MdPreview/index.vue'
+import MdPreview from '@/components/MdPreview/index.vue'
 import { renderBlockMath, renderInlineMath } from '@/app/utils/katex'
 import katex from 'katex'
 import 'katex/dist/katex.min.css'
