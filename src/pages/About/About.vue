@@ -1,5 +1,5 @@
 <template>
-    <main class="flex flex-col flex-1">
+    <main class="flex flex-1 flex-col">
         <h3>Let's loading some data</h3>
         <section class="flex flex-1">
             <Suspense>
@@ -59,6 +59,8 @@ import { useRoute } from 'vue-router'
 import { loadWithDelay } from '@/router'
 import CustomLoading from '@/components/Loading.vue'
 import PieChart from './PieChart.vue'
+import { useQuery } from '@tanstack/vue-query'
+import { useNumber } from './useNumber'
 
 const Await: (typeof import('@/components/Await.vue'))['default'] = defineAsyncComponent(() =>
     loadWithDelay(import('@/components/Await.vue'), 0)

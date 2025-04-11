@@ -1,4 +1,4 @@
-import { useFetchData } from '@/pages/About/useFetchData'
+import { useFetchData, useFetchDataQueryClient } from '@/pages/About/useFetchData'
 import { useFetchPieData } from '@/pages/About/useFetchPieData'
 import { loadWithDelay, type RouteConfig } from '.'
 
@@ -29,10 +29,12 @@ const routes: RouteConfig[] = [
                 path: 'about',
                 component: () => import('@/pages/About/About.vue'),
                 beforeEnter: (to, from, next) => {
-                    const { number, name, abortController } = useFetchData()
+                    // const { number, name, abortController } = useFetchData()
+                    const { number, name, abortController } = useFetchDataQueryClient()
                     to.meta.number = number
                     to.meta.name = name
                     to.meta.abortController = abortController
+
                     to.meta.pieData = useFetchPieData()
                     next()
                 }

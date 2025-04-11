@@ -14,16 +14,20 @@ import SvgIcon from './components/SvgIcon/SvgIcon.vue'
 import { RecycleScroller, DynamicScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import piniaPluginPersist from 'pinia-plugin-persistedstate'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 
 // const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersist)
+
+export const queryClient = new QueryClient()
 
 let instance: ReturnType<typeof createApp>
 
 function render(props = {}) {
     const { container } = props
     const app = createApp(App)
+    const queryClient = new QueryClient()
     app.component('SvgIcon', SvgIcon)
     app.component('RecycleScroller', RecycleScroller)
     app.component('DynamicScroller', DynamicScroller)
@@ -32,6 +36,7 @@ function render(props = {}) {
     })
     app.use(myPlugin, { message: 'hello' })
     app.use(ourPlugin({ message: 'hello' }))
+    app.use(VueQueryPlugin, { queryClient })
     app.use(router)
     app.use(pinia)
     instance = app.mount(container ? container.querySelector('#app') : '#app')
